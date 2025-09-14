@@ -6,7 +6,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <title>Skinscan</title>
     <style>
-        @import url( {{asset('css/style.css')}} );
+        @import url( {{asset('css/styles.css')}} );
     </style>
 </head>
 <body>
@@ -51,7 +51,224 @@
         </div>
     </header>
     <main>
-        <h1>TEST</h1>
+        <section class="about-hero">
+            <div class="container">
+                <div class="about-hero-content">
+                    <div class="logo-icon">
+                        <img src="Acne (6).png" alt="AcneScan Logo" class="footer-logo-img">
+                    </div>
+                    <h1>เกี่ยวกับ SkinScan</h1>
+                    <p>เรามุ่งมั่นที่จะทำให้ทุกคนสามารถเข้าถึงการวิเคราะห์ผิวระดับมืออาชีพได้ง่ายขึ้น ด้วยเทคโนโลยี AI อันล้ำสมัย ผสานกับความเชี่ยวชาญทางด้านผิวหนัง</p>
+                </div>
+            </div>
+        </section>
+        <section class="content-section">
+            <div class="what is acne" style="margin-top: 2.5rem;">
+                <h2 style="margin: 0;">เรื่องราวของเรา</h2>
+                <p>SkinScan ก่อตั้งขึ้นในปี 2023 โดยทีมแพทย์ผิวหนัง นักวิจัยด้าน AI และผู้เชี่ยวชาญด้านนวัตกรรมการดูแลสุขภาพ ซึ่งเล็งเห็นถึงความจำเป็นที่เพิ่มขึ้นในการเข้าถึงการดูแลผิวอย่างมีประสิทธิภาพสำหรับทุกคน โดยเฉพาะเมื่อสิวเป็นปัญหาที่ส่งผลกระทบต่อผู้คนกว่า 85% ในช่วงใดช่วงหนึ่งของชีวิต เราจึงมองเห็นโอกาสในการเชื่อมต่อระหว่างการดูแลโดยผู้เชี่ยวชาญกับความต้องการในการดูแลผิวในชีวิตประจำวันด้วยเทคโนโลยี AI ขั้นสูงของเรา ซึ่งได้รับการฝึกจากภาพที่ผ่านการตรวจสอบโดยแพทย์ผิวหนังมากกว่า 8,481 ภาพ เราสามารถวิเคราะห์สภาพผิวได้อย่างแม่นยำและรวดเร็ว ช่วยให้ผู้ใช้เข้าใจปัญหาผิวของตน และตัดสินใจเลือกแนวทางดูแลผิวได้อย่างมั่นใจ</p>
+            </div>
+        </section>
+
+        <!-- Mission Section -->
+        <section class="mission">
+            <div class="container">
+                <h2>สิ่งที่เราให้ความสำคัญ</h2>
+                <div class="acne-types-grid">
+                    <div class="Importance-card">
+                        <div class="privacy-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <h3>ความเป็นส่วนตัวต้องมาก่อน</h3>
+                        <p>
+                            ข้อมูลและรูปภาพของคุณจะถูกเข้ารหัสอย่างปลอดภัย และจะไม่มีการเปิดเผยหรือแบ่งปันใด ๆโดยไม่ได้รับความยินยอมจากคุณอย่างชัดเจน
+                        </p>
+                    </div>
+
+                    <div class="Importance-card">
+                        <div class="privacy-icon">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <h3>ความแม่นยำ</h3>
+                        <p>
+                            ระบบ AI ของเราได้รับการฝึกจากภาพถ่ายที่ผ่านการตรวจสอบโดยแพทย์ผิวหนังที่มีความเชียวชาญ เพื่อให้ได้ผลลัพธ์ที่เชื่อถือได้
+                        </p>
+
+                    </div><div class="Importance-card">
+                        <div class="privacy-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <h3>การดูแลที่เข้าถึงได้</h3>
+                        <p>
+                            เราทำให้การวิเคราะห์ผิวระดับมืออาชีพเป็นสิ่งที่ทุกคนสามารถเข้าถึงได้ ไม่ว่าจะอยู่ที่ใดก็ตาม
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Doctor section -->
+        <section class="doctor-section">
+            <div class="section-header">
+                <h2>ทีมผู้เชี่ยวชาญของเรา</h2>
+            </div>
+
+            <div class="doctor-card">
+                <img src="doctor.png" alt="ดร. ซาราห์ จอห์นสัน" class="doctor-image" />
+                <div class="doctor-info">
+                <h3>ดร. ซาราห์ จอห์นสัน</h3>
+                <p class="position">
+                    ประธานเจ้าหน้าที่ฝ่ายการแพทย์<br>
+                    <span class="position-en">(Chief Medical Officer)</span>
+                </p>
+                <p class="description">
+                    แพทย์ผิวหนังที่ได้รับใบรับรองจากสภาแพทย์สหรัฐฯ มีประสบการณ์ด้านการรักษาสิวและดูแลสุขภาพผิวมากกว่า 15 ปี
+                </p>
+                </div>
+            </div>
+        </section>
+        <!-- Team section -->
+        <section class="doctor-section">
+            <div class="section-header">
+                <h2>สมาชิกในทีม</h2>
+            </div>
+
+            <!-- ✅ เพิ่ม container ห่อ grid -->
+            {{-- <div class="doctor-grid">
+                <!-- สมาชิกทั้ง 10 ตามที่คุณใส่ไว้ -->
+                <div class="doctor-card">
+                    <img src="images/member1.jpg" alt="ชนิสรา สอนเหลิม" class="doctor-image" />
+                    <div class="doctor-info">
+                        <h3>ชนิสรา สอนเหลิม</h3>
+                        <p class="position">เมียหมอผ่าตัด</p>
+                    </div>
+                </div>
+
+                <!-- สมาชิก 2 -->
+                <div class="doctor-card">
+                    <img src="images/member2.jpg" alt="ทุ่มเท ทุ่มใจ" class="doctor-image" />
+                    <div class="doctor-info">
+                        <h3>ทุ่มเท ทุ่มใจ</h3>
+                        <p class="position">พนักงานทำความสะอาด</p>
+                    </div>
+                </div>
+
+                <!-- สมาชิก 3 -->
+                <div class="doctor-card">
+                    <img src="images/member3.jpg" alt="ใยใหม ใยเเมงมุม" class="doctor-image" />
+                    <div class="doctor-info">
+                        <h3>ใยใหม ใยเเมงมุม</h3>
+                        <p class="position">ผู้ช่วยพนักงานทำความสะอาด</p>
+                    </div>
+                </div>
+
+                <!-- สมาชิก 4 -->
+                <div class="doctor-card">
+                    <img src="images/member4.jpg" alt="ปิ่นทิพย์ จริงใจ" class="doctor-image" />
+                    <div class="doctor-info">
+                        <h3>ปิ่นทิพย์ จริงใจ</h3>
+                        <p class="position">QA testers</p>
+                    </div>
+                </div>
+
+                <!-- สมาชิก 5 -->
+                <div class="doctor-card">
+                    <img src="images/member5.jpg" alt="บัวบาดาล ใต้ทะเลอ่าวไทย" class="doctor-image" />
+                    <div class="doctor-info">
+                        <h3>บัวบาดาล ใต้ทะเลอ่าวไทย</h3>
+                        <p class="position">ลูกประธานบริษัท</p>
+                    </div>
+                </div>
+
+                <!-- สมาชิก 6 -->
+                <div class="doctor-card">
+                    <img src="images/member6.jpg" alt="รอนชดาภัทร ทรัพย์ไม่มีรักหมาเด็กทุกทีแต่เธอไม่ลืมคนเก่า" class="doctor-image" />
+                    <div class="doctor-info">
+                        <h3>รอนชดาภัทร ทรัพย์ไม่มีรักหมาเด็กทุกทีแต่เธอไม่ลืมคนเก่า</h3>
+                        <p class="position">Marketing Director</p>
+                    </div>
+                </div>
+
+                <!-- สมาชิก 7 -->
+                <div class="doctor-card">
+                    <img src="images/member7.jpg" alt="นัท แต่เพื่อนเรียกนัทนะโซ่" class="doctor-image" />
+                    <div class="doctor-info">
+                        <h3>นัท แต่เพื่อนเรียกนัทนะโซ่</h3>
+                        <p class="position">นายแบบสุดเท่</p>
+                    </div>
+                </div>
+
+                <!-- สมาชิก 8 -->
+                <div class="doctor-card">
+                    <img src="images/member8.jpg" alt="วีราทร ข้างถนน" class="doctor-image" />
+                    <div class="doctor-info">
+                        <h3>วีราทร ข้างถนน</h3>
+                        <p class="position">ฮมเลสที่นอนอยู่ข้างๆคลินิก</p>
+                    </div>
+                </div>
+
+                <!-- สมาชิก 9 -->
+                <div class="doctor-card">
+                    <img src="images/member9.jpg" alt="แป๋วแหวว  แจ๋วกว่านี้มีอีกมั้ย" class="doctor-image" />
+                    <div class="doctor-info">
+                        <h3>แป๋วแหวว  แจ๋วกว่านี้มีอีกมั้ย</h3>
+                        <p class="position">นักวิจัยการนั่งเฉยๆ ให้ดูเหมือนทำงาน</p>
+                    </div>
+                </div>
+
+                <!-- สมาชิก 10 -->
+                <div class="doctor-card">
+                    <img src="images/member10.jpg" alt="ปลาทอง ปราบเซียน" class="doctor-image" />
+                    <div class="doctor-info">
+                        <h3>ปลาทอง ปราบเซียน</h3>
+                        <p class="position">หัวหน้าฝ่ายพัฒนาบุคลากรปราบเซียน</p>
+                    </div>
+                </div>
+            </div> --}}
+        </section>
+
+        <!-- Hero Section -->
+        <section class="about-hero">
+            <div class="container">
+                <div class="about-hero-content">
+                    <h1>พันธกิจของเรา</h1>
+                    <p>เรามุ่งมั่นที่จะเสริมพลังให้กับทุกคน ด้วยข้อมูลวิเคราะห์สุขภาพผิวที่เข้าถึงได้ แม่นยำ และขับเคลื่อนด้วย AI เพื่อช่วยให้ตัดสินใจเรื่องการดูแลผิวได้อย่างมีข้อมูลรองรับ และสามารถเชื่อมต่อกับผู้เชี่ยวชาญได้อย่างเหมาะสมเมื่อจำเป็น</p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Contact Section -->
+        <section class="contact">
+            <div class="container">
+                <h2>ติดต่อเรา</h2>
+                <p>Have questions or feedback? We'd love to hear from you.</p>
+
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3>ส่งอีเมลหาเรา</h3>
+                        <p>เรายินดีรับฟังทุกความคิดเห็นจากคุณsupport@skinscan.ai</p>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h3>โทรหาเรา</h3>
+                        <p> จันทร์-ศุกร์ เวลา 9.00 น. – 18.00 น. 044-295-186 SKIN-SCAN</p>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3>เยี่ยมชมเรา</h3>
+                        <p>มหาวิทยาลัยขอนแก่น 123 หมู่ 16 ถนนมิตรภาพ ตำบลในเมือง อำเภอเมืองขอนแก่น 40002</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
     <!-- Footer -->
     <footer class="footer">

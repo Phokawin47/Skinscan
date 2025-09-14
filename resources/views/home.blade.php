@@ -6,7 +6,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <title>Skinscan</title>
     <style>
-        @import url( {{asset('css/style.css')}} );
+        @import url( {{asset('css/styles.css')}} );
     </style>
 </head>
 <body>
