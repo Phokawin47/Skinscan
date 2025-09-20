@@ -1,0 +1,509 @@
+/* Face Scan Page Styles */
+.scan-container {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.scan-step {
+    display: none;
+    padding: 2rem;
+}
+
+.scan-step.active {
+    display: block;
+}
+
+.scan-step h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.scan-methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.scan-method {
+    background: rgba(37, 99, 235, 0.05);
+    border: 2px solid rgba(37, 99, 235, 0.2);
+    border-radius: 0.75rem;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.scan-method:hover {
+    border-color: rgba(37, 99, 235, 0.4);
+    background: rgba(37, 99, 235, 0.1);
+    transform: translateY(-2px);
+}
+
+.scan-method i {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    transition: all 0.2s;
+}
+
+.scan-method:hover i {
+    transform: scale(1.1);
+}
+
+.scan-method h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.scan-method p {
+    color: var(--gray-600);
+    line-height: 1.5;
+}
+
+.scan-tips {
+    background: var(--gray-50);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+}
+
+.scan-tips h4 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--primary);
+}
+
+.scan-tips ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.scan-tips li {
+    padding: 0.25rem 0;
+    color: var(--gray-600);
+}
+
+.scan-tips li:before {
+    content: "• ";
+    color: var(--primary);
+    font-weight: bold;
+}
+
+.scan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.camera-container {
+    position: relative;
+    background: var(--gray-900);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+#video {
+    width: 100%;
+    height: 24rem;
+    object-fit: cover;
+}
+
+.camera-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.face-guide {
+    border: 2px dashed white;
+    border-radius: 50%;
+    width: 16rem;
+    height: 16rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.camera-controls {
+    text-align: center;
+}
+
+.upload-area {
+    border: 2px dashed var(--gray-300);
+    border-radius: 0.75rem;
+    padding: 10rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.upload-area:hover {
+    border-color: var(--primary);
+    background: rgba(37, 99, 235, 0.05);
+}
+
+.upload-area i {
+    font-size: 4rem;
+    color: var(--gray-400);
+    margin-bottom: 1rem;
+}
+
+.upload-area h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.upload-area p {
+    color: var(--gray-600);
+}
+
+.scanning-content {
+    text-align: center;
+}
+
+.scan-image-container {
+    margin-bottom: 2rem;
+}
+
+.scan-image-container img,
+#scanImage,
+#resultImage {
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: cover;
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.75rem;
+    border: 4px solid rgba(37, 99, 235, 0.2);
+}
+
+.scanning-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+}
+
+.scanning-status i {
+    color: var(--primary);
+}
+
+.progress-bar {
+    max-width: 20rem;
+    margin: 0 auto 1rem;
+    background: var(--gray-100);
+    border-radius: 9999px;
+    height: 0.5rem;
+    overflow: hidden;
+}
+
+.progress-fill {
+    background: var(--primary);
+    height: 100%;
+    border-radius: 9999px;
+    width: 75%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.results-header h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--success);
+}
+
+.results-content {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.results-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.diagnosis {
+    background: rgba(37, 99, 235, 0.05);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+}
+
+.diagnosis h3 {
+    font-size: 1.125rem;
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+}
+
+.diagnosis-type {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.diagnosis-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.severity-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.severity-badge.moderate {
+    background: rgba(251, 191, 36, 0.1);
+    color: #d97706;
+}
+
+.confidence {
+    color: var(--primary);
+    font-weight: 500;
+}
+
+.affected-areas {
+    background: var(--gray-50);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+}
+
+.affected-areas h3 {
+    font-size: 1.125rem;
+    margin-bottom: 0.75rem;
+}
+
+.areas-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.area-tag {
+    background: white;
+    border: 1px solid var(--gray-200);
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+}
+
+.recommendations {
+    background: rgba(34, 197, 94, 0.05);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+}
+
+.recommendations h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.125rem;
+    color: var(--success);
+    margin-bottom: 1rem;
+}
+
+.recommendations-list {
+    list-style: none;
+    padding: 0;
+}
+
+.recommendations-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+}
+
+.recommendations-list i {
+    color: var(--success);
+    margin-top: 0.125rem;
+    flex-shrink: 0;
+}
+
+.disclaimer {
+    background: rgba(251, 191, 36, 0.05);
+    border: 1px solid rgba(251, 191, 36, 0.2);
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.disclaimer p {
+    color: #92400e;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.privacy-box {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    max-width: 400px;
+    text-align: center;
+    margin: 2rem auto;
+}
+
+.privacy-icon {
+    font-size: 2.5rem;
+    color: #00bfa6;
+    margin-bottom: 1rem;
+}
+
+.privacy-box h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.75rem;
+}
+
+.privacy-box p {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.6;
+}
+
+.user-info-form {
+    margin-bottom: 2rem;
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.user-info-form h3 {
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    color: #333;
+}
+
+.user-info-form label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: 500;
+}
+
+.user-info-form input,
+.user-info-form select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+}
+
+#resultImage {
+    display: block;
+    margin: 0 auto;
+}
+
+.results-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* Responsive Design for Face Scan */
+@media (max-width: 1024px) {
+    .scan-methods {
+        grid-template-columns: 1fr;
+    }
+
+    .scan-container {
+        max-width: 1200px;
+    }
+
+    .results-content {
+        gap: 3rem;
+    }
+
+    .scan-image-container img,
+    #scanImage,
+    #resultImage {
+        width: 22rem;
+        height: 22rem;
+    }
+
+    .scan-step {
+        padding: 1.5rem;
+    }
+
+    .scan-step h2 {
+        font-size: 1.75rem;
+    }
+
+    .scan-method h3 {
+        font-size: 1.1rem;
+    }
+
+    .scan-method p {
+        font-size: 1rem;
+    }
+
+    .scan-tips li {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .results-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .scan-step {
+        padding: 1rem;
+    }
+
+    .face-guide {
+        width: 12rem;
+        height: 12rem;
+    }
+
+    #video {
+        height: 18rem;
+    }
+
+    .scan-image-container img,
+    #scanImage,
+    #resultImage {
+        width: 20rem;
+        height: 20rem;
+    }
+}

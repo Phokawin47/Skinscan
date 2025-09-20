@@ -1,0 +1,295 @@
+/* About Page Styles */
+.about-hero {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.about-hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 5rem;
+    height: 5rem;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+}
+
+.about-hero h1 {
+    font-size: 3.5rem;
+    color: white;
+    margin-bottom: 1.5rem;
+}
+
+.about-hero p {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.5;
+}
+
+.what.is.acne {
+ background: #e0f2fe;
+ padding: 1.5rem;
+}
+
+.what.is.acne h2 {
+ /* color: var(--primary); */
+ font-size: 2rem;
+ margin-bottom: 1rem;
+
+}
+
+.what.is.acne p {
+ color: var(--gray-700);
+ font-size: 1.15rem;
+ line-height: 1.6;
+ text-indent: 2em; /* ย่อหน้าด้วยความกว้าง 2 เท่าของตัวอักษร */
+}
+
+.mission {
+    padding: 4rem 0;
+    background: white;
+    text-align: center;
+}
+
+.mission h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.mission-text {
+    font-size: 1.25rem;
+    color: var(--gray-600);
+    line-height: 1.5;
+    margin-bottom: 2rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mission-quote {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(13, 148, 136, 0.05) 100%);
+    border-radius: 1rem;
+    padding: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.mission-quote blockquote {
+    font-size: 1.125rem;
+    font-style: italic;
+    color: var(--gray-700);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.mission-quote cite {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.about-stats {
+    padding: 4rem 0;
+    background: var(--gray-900);
+    color: white;
+}
+
+.acne-types-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.acne-type-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+}
+
+.acne-type-card p {
+    text-indent: 2em;
+}
+
+.acne-type-card:hover {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.acne-type-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.acne-type-header h3 {
+    font-size: 1.25rem;
+}
+
+.contact {
+    padding: 4rem 0;
+    background: white;
+    text-align: center;
+}
+
+.contact h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.contact > p {
+    font-size: 1.25rem;
+    color: var(--gray-600);
+    margin-bottom: 3rem;
+}
+
+.contact-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.contact-item {
+    width: 280px;
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+.contact-icon {
+    width: 3rem;
+    height: 3rem;
+    background: rgba(37, 99, 235, 0.1);
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.5rem;
+    color: var(--primary);
+    transition: all 0.2s;
+}
+
+.contact-item:hover {
+    background: var(--gray-100);
+}
+
+.contact-item:hover .contact-icon {
+    background: rgba(37, 99, 235, 0.2);
+}
+
+.contact-item h3 {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.contact-item p {
+    color: var(--gray-600);
+}
+
+/* Doctor and Team Sections */
+.doctor-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 1rem;
+    background-color: #f9fafb;
+}
+
+.doctor-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.doctor-card {
+    width: 280px;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-align: left;
+}
+
+.doctor-image {
+    width: 280px;
+    height: 374px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+}
+
+.doctor-info {
+    padding: 1rem;
+}
+
+.doctor-info h3 {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+    color: #111;
+}
+
+.position {
+    color: #2563eb;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.position-en {
+    color: #2563eb;
+    font-size: 0.85rem;
+    font-weight: normal;
+}
+
+.description {
+    font-size: 0.95rem;
+    color: #333;
+    line-height: 1.5;
+}
+
+.Importance-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+}
+
+.Importance-card:hover {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.privacy-icon {
+    font-size: 2.5rem;
+    color: #00bfa6;
+    margin-bottom: 1rem;
+}
+
+/* Responsive Design for About */
+@media (max-width: 768px) {
+    .about-hero h1 {
+        font-size: 2.5rem;
+    }
+}

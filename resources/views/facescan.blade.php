@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <title>Skinscan</title>
-    <style>
-        @import url( {{asset('css/styles.css')}} );
-    </style>
+    <link rel="stylesheet" href="{{asset('css/base.css')}}">
+    <link rel="stylesheet" href="{{asset('css/face-scan.css')}}">
 </head>
 <body>
      <!-- Header -->
