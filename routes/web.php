@@ -34,6 +34,10 @@ Route::get("/Skinscan/facescan",function(){
     return view("facescan");
 })->name("facescan.idx");
 
+Route::get("/Skinscan/searchproduct",function(){
+        return view("searchproduct");
+})->name("search.idx");
+
 Route::get("/Skinscan/aboutus",function(){
         return view("aboutus");
 })->name("aboutus.idx");
