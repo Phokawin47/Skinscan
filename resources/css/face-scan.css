@@ -6,7 +6,7 @@
     background-color: #f9f9fb;
     text-align: center;
     font-family: 'Prompt', sans-serif;
-    background-image: url('./webimage/left-face.png'), url('./webimage/right-face.png');
+    background-image: url('../images/left-face.png'), url('../images/right-face.png');
     background-repeat: no-repeat, no-repeat;
     background-position: left bottom, right bottom;
     background-size: auto 75%, auto 75%;

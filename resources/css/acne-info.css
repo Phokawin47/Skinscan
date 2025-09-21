@@ -1,0 +1,391 @@
+/* Acne Info Page Styles */
+.page-header {
+    text-align: center;
+    padding: 3rem 0;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.page-header h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.page-header p {
+    font-size: 1.25rem;
+    color: var(--gray-600);
+    line-height: 1.5;
+}
+
+.content-section {
+    margin-bottom: 4rem;
+}
+
+.content-section h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* What is Acne Section */
+.what.is.acne {
+    background: #e0f2fe;
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
+}
+
+.what.is.acne h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.what.is.acne p {
+    color: var(--gray-700);
+    font-size: 1.15rem;
+    line-height: 1.6;
+    text-indent: 2em;
+}
+
+/* Cause Section */
+.cause {
+    background: #fee0e0;
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 4px 12px rgba(235, 67, 37, 0.08);
+}
+
+.cause h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.cause p {
+    color: var(--gray-700);
+    font-size: 1.15rem;
+    line-height: 1.6;
+    text-indent: 2em;
+}
+
+.acne-types-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.acne-type-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+}
+
+.acne-type-card p {
+    text-indent: 2em;
+}
+
+.acne-type-card:hover {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.acne-type-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.acne-type-header h3 {
+    font-size: 1.25rem;
+}
+
+.severity {
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.severity.mild {
+    background: rgba(34, 197, 94, 0.1);
+    color: #059669;
+}
+
+.severity.moderate {
+    background: rgba(251, 191, 36, 0.1);
+    color: #d97706;
+}
+
+.severity.severe {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+}
+
+.causes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.cause-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cause-icon {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.cause-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.cause-card p {
+    color: var(--gray-600);
+    line-height: 1.5;
+}
+
+.cause ul {
+    list-style: none;
+    padding-left: 1.5em;
+    margin: 0;
+}
+
+.cause li {
+    padding: 0.25rem 0;
+    color: #000000;
+    position: relative;
+    padding-left: 1.2em;
+}
+
+.cause li:before {
+    content: "• ";
+    color: #e81a1a;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1em;
+    display: inline-block;
+    line-height: 1.5;
+}
+
+.cause-bullet {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+}
+
+.cause-bullet ul {
+    padding-left: 20px;
+    margin: 0;
+    flex: 1;
+}
+
+.cause-bullet li {
+    margin-bottom: 8px;
+    font-size: 1.25rem;
+}
+
+.title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.title-row h2 {
+    margin: 0;
+    line-height: 1.2;
+}
+
+.treatment-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.treatment-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.bullet {
+    color: #00bfa6;
+    font-size: 1.2em;
+    margin-right: 10px;
+    line-height: 1.2;
+}
+
+.text-group {
+    flex: 1;
+}
+
+.treatment-title {
+    font-weight: bold;
+    font-size: 1.05em;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.treatment-desc {
+    margin: 4px 0 0 0;
+    font-size: 0.95em;
+    color: #333;
+    line-height: 1.5;
+}
+
+.section-header2 {
+    display: flex;
+    align-items: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #111;
+    gap: 0.75rem;
+}
+
+.section-header2 i {
+    color: #16c79a;
+    font-size: 1.25rem;
+    margin-top: 3px;
+}
+
+.ingredient-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.ingredient-card {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: box-shadow 0.2s;
+}
+
+.ingredient-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.ingredient-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.ingredient-content h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 0 0.5rem;
+}
+
+.ingredient-content p {
+    margin: 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+.info-box {
+    background-color: #fffbea;
+    border: 2px solid #facc15;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    color: #92400e;
+    max-width: 100%;
+}
+
+.info-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.info-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.info-description {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    padding-left: 2.5rem;
+}
+
+/* Icons */
+.info-icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid #1a73e8;
+    color: #1a73e8;
+    text-align: center;
+    line-height: 22px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    user-select: none;
+}
+
+.cause-info-icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid #e81a1a;
+    color: #e81a1a;
+    text-align: center;
+    line-height: 22px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    user-select: none;
+}
+
+.info-icon2 {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid #facc15;
+    color: #facc15;
+    text-align: center;
+    line-height: 22px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    user-select: none;
+}
+
+.checkbox-icon {
+    color: green;
+    font-size: 1.5em;
+    margin-right: 10px;
+}
+
+/* Responsive Design for Acne Info */
+@media (max-width: 768px) {
+    .page-header h1 {
+        font-size: 2rem;
+    }
+
+    .acne-types-grid,
+    .causes-grid {
+        grid-template-columns: 1fr;
+    }
+}

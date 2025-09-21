@@ -1,6 +1,14 @@
+@import './base.css';
+@import './about.css';
+@import './acne-info.css';
+@import './face-scan.css';
+@import './home.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
 
 [x-cloak] {
     display: none;
