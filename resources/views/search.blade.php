@@ -102,8 +102,6 @@
     </header>
 
     <!-- Main Content -->
-    <main>
-        test
     </main>
 
     <!-- Footer -->
