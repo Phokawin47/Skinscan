@@ -13,8 +13,6 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens;
-
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
     use HasProfilePhoto;
     use Notifiable;
@@ -26,7 +24,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'username',
+        'username', // แก้จาก name เป็น username
         'first_name',
         'last_name',
         'email',
@@ -65,5 +63,39 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // ========== เพิ่มความสัมพันธ์ด้านล่างนี้เข้าไป ==========
+
+    /**
+     * Get the role associated with the user.
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id', 'role_id');
+    }
+
+    /**
+     * Get the skin type associated with the user.
+     */
+    public function skinType()
+    {
+        return $this->belongsTo(SkinType::class, 'skin_type_id', 'skin_type_id');
+    }
+
+    /**
+     * Get the scan histories for the user.
+     */
+    public function scanHistories()
+    {
+        return $this->hasMany(ScanHistory::class, 'user_id', 'id');
+    }
+
+    /**
+     * Get the products added by the user (product manager).
+     */
+    public function addedProducts()
+    {
+        return $this->hasMany(Product::class, 'added_by_user_id', 'id');
     }
 }
