@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,10 +35,12 @@ Route::get("/Skinscan/facescan",function(){
     return view("facescan");
 })->name("facescan.idx");
 
-Route::get("/Skinscan/searchproduct",function(){
-        return view("searchproduct");
+Route::get("/Skinscan/search",function(){
+        return view("search");
 })->name("search.idx");
 
 Route::get("/Skinscan/aboutus",function(){
         return view("aboutus");
 })->name("aboutus.idx");
+
+Route::get('/Skinscan/search', [ProductController::class, 'index'])->name('search.idx');
