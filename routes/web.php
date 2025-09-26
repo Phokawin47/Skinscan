@@ -46,3 +46,14 @@ Route::get("/Skinscan/aboutus",function(){
 Route::get("/Skinscan/product_management", function(){
         return view("product_management");
 })->name("product_management.idx");
+
+
+Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
+Route::post('/product/store', [ProductController::class, 'store'])->name('product.stor');
+Route::post('/products', [ProductController::class, 'store'])->name('product.store');
+
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+
+
+Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
+Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy'); // <-- เพิ่มบรรทัดนี้
