@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -37,3 +38,14 @@ Route::get("/Skinscan/facescan",function(){
 Route::get("/Skinscan/aboutus",function(){
         return view("aboutus");
 })->name("aboutus.idx");
+
+
+Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
+Route::post('/product/store', [ProductController::class, 'store'])->name('product.stor');
+Route::post('/products', [ProductController::class, 'store'])->name('product.store');
+
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+
+
+Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
+Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy'); // <-- เพิ่มบรรทัดนี้
