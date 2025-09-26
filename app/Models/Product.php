@@ -1,59 +1,86 @@
 <?php
 
-// app/Models/Product.php
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Product extends Model
 {
+    use HasFactory;
+
+    protected $table = 'products';
     protected $primaryKey = 'product_id';
     protected $appends = ['image_url'];
 
+    /** Accessors **/
     public function getImageUrlAttribute()
     {
         $path = (string) ($this->image_path ?? '');
-
-        // Normalize slashes
         $path = str_replace('\\', '/', $path);
 
-        // If DB accidentally stores full Windows path like:
-        // C:/Users/Lenovo/Downloads/Webapp Project/Skinscan/public/product_image/xxx.jpg
+        // Full Windows-like path containing /public/product_image/
         if (Str::contains($path, '/public/product_image/')) {
             $filename = basename($path);
-            return asset('product_image/'.$filename);
+            return asset('product_image/' . $filename);
         }
 
-        // If DB stores only the filename (xxx.jpg)
+        // Only filename (e.g., xxx.jpg)
         if ($path && !Str::contains($path, '/')) {
-            return asset('product_image/'.$path);
+            return asset('product_image/' . $path);
         }
 
-        // If DB stores relative like ./product_image/xxx.jpg or product_image/xxx.jpg
+        // Relative like ./product_image/xxx.jpg or product_image/xxx.jpg
         if (Str::startsWith($path, ['./', 'product_image/'])) {
             $path = ltrim($path, './');
             return asset($path);
         }
 
-        // If it’s already a full URL, just return it
+        // Already a full URL
         if (Str::startsWith($path, ['http://', 'https://'])) {
             return $path;
         }
 
-        // Fallback placeholder
+        // Fallback
         return asset('image/placeholder.png');
+    }
+
+    /** Relationships **/
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class, 'brand_id', 'brand_id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(ProductCategory::class, 'category_id', 'category_id');
+    }
+
+    public function addedByUser()
+    {
+        return $this->belongsTo(User::class, 'added_by_user_id', 'id');
     }
 
     public function ingredients()
     {
         return $this->belongsToMany(
-            \App\Models\Ingredient::class,
-            'product_ingredients',   // pivot
-            'product_id',            // FK on pivot to Product
-            'ingredient_id'          // FK on pivot to Ingredient
+            Ingredient::class,
+            'product_ingredients', // pivot
+            'product_id',          // FK to products
+            'ingredient_id'        // FK to ingredients
         );
     }
 
+    public function skinTypes()
+    {
+        return $this->belongsToMany(
+            SkinType::class,
+            'product_skin_types',
+            'product_id',
+            'skin_type_id'
+        );
+    }
 
+    
 }

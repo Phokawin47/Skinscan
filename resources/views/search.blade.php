@@ -101,6 +101,7 @@
         </div>
     </header>
 
+    <!-- Main Content -->
     <main class="max-w-6xl mx-auto px-4 md:px-6 lg:px-0 py-10">
 
         <!-- Page title (pill) -->
@@ -114,7 +115,7 @@
         <section class="rounded-3xl border border-gray-200 bg-white shadow-sm p-4 md:p-6">
 
             <!-- Top search bar -->
-            <form method="GET" action="{{ route('search.idx') }}" class="mb-6" id="searchForm">
+            <form method="GET" action="{{ route('search') }}" class="mb-6" id="searchForm">
             <div class="flex items-center gap-2">
                 <div class="flex-1 relative">
                 <input
@@ -155,7 +156,7 @@
                 </div>
 
                 <div class="flex items-end gap-2">
-                    <a href="{{ route('search.idx') }}"
+                    <a href="{{ route('search') }}"
                     class="h-10 px-4 rounded-lg border border-gray-300 hover:bg-white inline-flex items-center">ล้างตัวกรอง</a>
                     <button type="submit" class="h-10 px-4 rounded-lg bg-blue-600 text-white hover:bg-blue-700">ค้นหา</button>
                 </div>
@@ -171,37 +172,43 @@
             </script>
 
 
-            <!-- Results grid -->
+                <!-- Results grid -->
             @php use Illuminate\Support\Str; @endphp
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            @forelse($products as $p)
-                <article class="rounded-2xl border border-gray-200 p-3 md:p-4 shadow-sm hover:shadow-md transition">
-                <div class="w-full h-36 bg-white flex items-center justify-center rounded-xl border border-gray-100 mb-3 overflow-hidden">
-                    <img
-                    src="{{ $p->image_url }}"
-                    alt="{{ $p->product_name }}"
-                    class="object-contain max-h-full"
-                    loading="lazy"
-                    onerror="this.onerror=null;this.src='{{ asset('image/placeholder.png') }}';"
-                    >
-                </div>
-                <h3 class="font-semibold text-gray-900 mb-1">{{ $p->product_name }}</h3>
+                @forelse($products as $p)
+                    <article class="rounded-2xl border border-gray-200 p-3 md:p-4 shadow-sm hover:shadow-md transition">
+                        <div class="w-full h-36 bg-white flex items-center justify-center rounded-xl border border-gray-100 mb-3 overflow-hidden">
+                            <img
+                                src="{{ $p->image_url }}"
+                                alt="{{ $p->product_name }}"
+                                class="object-contain max-h-full"
+                                loading="lazy"
+                                onerror="this.onerror=null;this.src='{{ asset('image/placeholder.png') }}';"
+                            >
+                        </div>
 
-                <div class="text-sm text-gray-700">
-                    <div class="mb-1">
-                    <span class="font-medium">ส่วนผสมเด่น:</span>
-                    {{ $p->ingredients->pluck('ingredient_name')->join(', ') ?: '-' }}
-                    </div>
-                    <div class="text-gray-600">
-                    {{ Str::limit($p->usage_details ?? '', 140) }}
-                    </div>
-                </div>
-                </article>
-            @empty
-                <p class="text-gray-500 text-center py-8 w-full col-span-3">ไม่พบรายการสินค้า</p>
-            @endforelse
+                        <h3 class="font-semibold text-gray-900 mb-1">{{ $p->product_name }}</h3>
+
+                        <div class="text-sm text-gray-700">
+                            <div class="mb-1">
+                                <span class="font-medium">ส่วนผสมเด่น:</span>
+                                {{ optional($p->ingredients)->pluck('ingredient_name')->join(', ') ?? '-' }}
+                            </div>
+                            <div class="text-gray-600">
+                                {{ Str::limit($p->usage_details ?? '', 140) }}
+                            </div>
+                        </div>
+                    </article>
+                @empty
+                    <p class="text-gray-500 text-center py-8 w-full col-span-full">ไม่พบรายการสินค้า</p>
+                @endforelse
             </div>
+
+            <div class="mt-6">
+                {{ $products->links() }}
+            </div>
+
 
             {{-- Pagination keeps current filters/search --}}
             @if($products->hasPages())

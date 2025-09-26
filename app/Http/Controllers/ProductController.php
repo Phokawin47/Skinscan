@@ -7,20 +7,20 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
-            public function index(\Illuminate\Http\Request $request)
+    public function index(Request $request)
     {
-        $q        = trim((string)$request->input('q', ''));
-        $ingRaw   = trim((string)$request->input('ingredient', ''));
-        $acneType = trim((string)$request->input('acneType', ''));
+        $q        = trim((string) $request->input('q', ''));
+        $ingRaw   = trim((string) $request->input('ingredient', ''));   // form field: name="ingredient"
+        $acneType = trim((string) $request->input('acneType', ''));
 
-        // explode ingredients by comma/space, drop empties, normalize to lower
+        // split by comma or whitespace, lowercase, remove empties
         $ingTerms = collect(preg_split('/[,\s]+/u', $ingRaw))
-            ->filter(fn($t) => $t !== null && $t !== '')
-            ->map(fn($t) => mb_strtolower($t))
+            ->filter(fn ($t) => $t !== null && $t !== '')
+            ->map(fn ($t) => mb_strtolower($t))
             ->values();
 
-        // populate dropdown
-        $skinOptions = \App\Models\Product::query()
+        // dropdown options for suitability
+        $skinOptions = Product::query()
             ->select('suitability_info')
             ->whereNotNull('suitability_info')
             ->where('suitability_info', '<>', '')
@@ -28,34 +28,38 @@ class ProductController extends Controller
             ->orderBy('suitability_info')
             ->pluck('suitability_info');
 
-        $products = \App\Models\Product::with(['ingredients' => function ($q) {
+        $products = Product::with(['ingredients' => function ($q) {
                 $q->select('ingredients.ingredient_id', 'ingredient_name');
             }])
-            // free text search across name + usage_details
+            // free text
             ->when($q !== '', function ($qq) use ($q) {
                 $qq->where(function ($w) use ($q) {
                     $w->where('product_name', 'like', "%{$q}%")
-                    ->orWhere('usage_details', 'like', "%{$q}%");
+                      ->orWhere('usage_details', 'like', "%{$q}%");
                 });
             })
-            // INGREDIENTS filter (AND logic across all terms)
+            // ingredients (AND across all terms). For OR, see note below.
             ->when($ingTerms->isNotEmpty(), function ($qq) use ($ingTerms) {
                 foreach ($ingTerms as $t) {
                     $qq->whereHas('ingredients', function ($sub) use ($t) {
-                        // LOWER() for safe case-insensitive match
+                        // If your DB collation is already case-insensitive, you can use plain where 'like'
                         $sub->whereRaw('LOWER(ingredient_name) LIKE ?', ["%{$t}%"]);
                     });
                 }
             })
             // suitability / acneType
-            ->when($acneType !== '', function ($qq) use ($acneType) {
-                $qq->where('suitability_info', $acneType);
-            })
+            ->when($acneType !== '', fn ($qq) => $qq->where('suitability_info', $acneType))
             ->orderBy('product_id')
-            ->paginate(12);
+            ->paginate(12)
+            ->appends($request->query()); // keep filters in pagination links
 
-        return view('search', compact('products', 'skinOptions'));
-        }
-
-    
+        return view('search', [
+            'products'    => $products,
+            'skinOptions' => $skinOptions,
+            // return current filters so the form can show the selected values
+            'q'           => $q,
+            'ingredient'  => $ingRaw,
+            'acneType'    => $acneType,
+        ]);
+    }
 }

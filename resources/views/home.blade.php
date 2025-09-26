@@ -22,11 +22,12 @@
 
                 <!-- กลาง: เมนูหลัก (กึ่งกลางจริง) -->
                 <nav class="nav-desktop">
-                    <a href="/Skinscan/home" class="nav-link active">Home</a>
-                    <a href="/Skinscan/anceinfomation" class="nav-link">Acne Info</a>
-                    <a href="/Skinscan/facescan" class="nav-link">Face Scan</a>
-                    <a href="/Skinscan/search" class="nav-link">Search Product</a>
-                    <a href="/Skinscan/aboutus" class="nav-link">About Us</a>
+
+                    <a href="{{route('home.idx')}}" class="nav-link active">Home</a>
+                    <a href="{{route('anceinfomation.idx')}}" class="nav-link">Acne Info</a>
+                    <a href="{{route('facescan.idx')}}" class="nav-link">Face Scan</a>
+                    <a href="{{route('search')}}" class="nav-link">Search Product</a>
+                    <a href="{{route('aboutus.idx')}}" class="nav-link">About Us</a>
                 </nav>
 
                 <!-- ขวา: ปุ่ม Scan + โปรไฟล์ -->
@@ -66,6 +67,12 @@
                             <x-slot name="content">
                                 <div class="block px-4 py-2 text-xs text-gray-400">{{ __('Manage Account') }}</div>
                                     <x-dropdown-link href="{{ route('profile.show') }}">{{ __('Profile') }}</x-dropdown-link>
+                                    @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
+                                        <x-dropdown-link href="{{ route('api-tokens.index') }}">{{ __('API Tokens') }}</x-dropdown-link>
+                                    @endif
+                                <div class="border-t border-gray-200"></div>
+                                <div class="block px-4 py-2 text-xs text-gray-400">{{ __('Product Management') }}</div>
+                                    <x-dropdown-link href="{{ route('product_management.idx') }}">{{ __('Manage') }}</x-dropdown-link>
                                     @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                                         <x-dropdown-link href="{{ route('api-tokens.index') }}">{{ __('API Tokens') }}</x-dropdown-link>
                                     @endif
