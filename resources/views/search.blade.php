@@ -205,10 +205,6 @@
                 @endforelse
             </div>
 
-            <div class="mt-6">
-                {{ $products->links() }}
-            </div>
-
 
             {{-- Pagination keeps current filters/search --}}
             @if($products->hasPages())
