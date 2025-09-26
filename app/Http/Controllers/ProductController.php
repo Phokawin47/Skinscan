@@ -7,7 +7,7 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
-    public function index(Request $request)
+    public function Magic(Request $request)
     {
         $q        = trim((string) $request->input('q', ''));
         $ingRaw   = trim((string) $request->input('ingredient', ''));   // form field: name="ingredient"
