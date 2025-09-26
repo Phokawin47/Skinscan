@@ -102,7 +102,127 @@
     </header>
 
     <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 md:px-6 lg:px-0 py-10">
+
+        <!-- Page title (pill) -->
+        <div class="w-full flex justify-center mb-6">
+            <div class="px-6 py-2 rounded-full bg-gray-100 text-gray-800 text-sm font-semibold shadow-sm">
+                Search and filter
+            </div>
+        </div>
+
+        <!-- Card container -->
+        <section class="rounded-3xl border border-gray-200 bg-white shadow-sm p-4 md:p-6">
+
+            <!-- Top search bar -->
+            <form method="GET" action="{{ route('search') }}" class="mb-6" id="searchForm">
+            <div class="flex items-center gap-2">
+                <div class="flex-1 relative">
+                <input
+                    name="q"                       
+                    value="{{ request('q') }}"
+                    placeholder="ค้นหาชื่อผลิตภัณฑ์"
+                    class="w-full h-11 rounded-full border border-gray-200 pl-5 pr-24 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" />
+
+                <button type="button" id="advancedBtn"
+                    class="absolute right-11 top-1/2 -translate-y-1/2 text-sm px-3 py-1 rounded-full border border-gray-300 hover:bg-gray-50">
+                    Advanced
+                </button>
+
+                <button type="submit"          
+                    class="absolute right-1 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center border border-gray-300 hover:bg-gray-50">
+                    <i class="fa-solid fa-magnifying-glass text-gray-600"></i>
+                </button>
+                </div>
+            </div>
+
+            <div id="advancedPanel" class="{{ request()->hasAny(['ingredient','acneType']) ? '' : 'hidden' }} rounded-2xl border border-gray-200 p-4 mt-4 bg-gray-50">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">ประเภทผิว/ความเหมาะสม (จาก suitability_info)</label>
+                    <select name="acneType" class="w-full h-10 rounded-lg border border-gray-300 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">— ทุกประเภท —</option>
+                    @foreach(($skinOptions ?? collect()) as $opt)
+                        <option value="{{ $opt }}" @selected(request('acneType')===$opt)>{{ $opt }}</option>
+                    @endforeach
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">ส่วนผสม (เช่น BHA, Niacinamide)</label>
+                    <input name="ingredient" value="{{ request('ingredient') }}"
+                        class="w-full h-10 rounded-lg border border-gray-300 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="พิมพ์เพื่อกรองตามส่วนผสม">
+                </div>
+
+                <div class="flex items-end gap-2">
+                    <a href="{{ route('search') }}"
+                    class="h-10 px-4 rounded-lg border border-gray-300 hover:bg-white inline-flex items-center">ล้างตัวกรอง</a>
+                    <button type="submit" class="h-10 px-4 rounded-lg bg-blue-600 text-white hover:bg-blue-700">ค้นหา</button>
+                </div>
+                </div>
+            </div>
+            </form>
+
+            <script>
+            // just toggle the advanced panel (no JSON filtering anymore)
+            document.getElementById('advancedBtn')?.addEventListener('click', () => {
+                document.getElementById('advancedPanel')?.classList.toggle('hidden');
+            });
+            </script>
+
+
+                <!-- Results grid -->
+            @php use Illuminate\Support\Str; @endphp
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                @forelse($products as $p)
+                    <article class="rounded-2xl border border-gray-200 p-3 md:p-4 shadow-sm hover:shadow-md transition">
+                        <div class="w-full h-36 bg-white flex items-center justify-center rounded-xl border border-gray-100 mb-3 overflow-hidden">
+                            <img
+                                src="{{ $p->image_url }}"
+                                alt="{{ $p->product_name }}"
+                                class="object-contain max-h-full"
+                                loading="lazy"
+                                onerror="this.onerror=null;this.src='{{ asset('image/placeholder.png') }}';"
+                            >
+                        </div>
+
+                        <h3 class="font-semibold text-gray-900 mb-1">{{ $p->product_name }}</h3>
+
+                        <div class="text-sm text-gray-700">
+                            <div class="mb-1">
+                                <span class="font-medium">ส่วนผสมเด่น:</span>
+                                {{ optional($p->ingredients)->pluck('ingredient_name')->join(', ') ?? '-' }}
+                            </div>
+                            <div class="text-gray-600">
+                                {{ Str::limit($p->usage_details ?? '', 140) }}
+                            </div>
+                        </div>
+                    </article>
+                @empty
+                    <p class="text-gray-500 text-center py-8 w-full col-span-full">ไม่พบรายการสินค้า</p>
+                @endforelse
+            </div>
+
+            <div class="mt-6">
+                {{ $products->links() }}
+            </div>
+
+
+            {{-- Pagination keeps current filters/search --}}
+            @if($products->hasPages())
+            <div class="mt-6">
+                {{ $products->appends(request()->query())->links() }}
+            </div>
+            @endif
+            </div>
+
+        </section>
     </main>
+
+    
+
 
     <!-- Footer -->
     <footer class="footer">

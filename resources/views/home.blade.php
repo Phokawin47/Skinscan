@@ -22,10 +22,11 @@
 
                 <!-- กลาง: เมนูหลัก (กึ่งกลางจริง) -->
                 <nav class="nav-desktop">
+
                     <a href="{{route('home.idx')}}" class="nav-link active">Home</a>
                     <a href="{{route('anceinfomation.idx')}}" class="nav-link">Acne Info</a>
                     <a href="{{route('facescan.idx')}}" class="nav-link">Face Scan</a>
-                    <a href="{{route('search.idx')}}" class="nav-link">Search Product</a>
+                    <a href="{{route('search')}}" class="nav-link">Search Product</a>
                     <a href="{{route('aboutus.idx')}}" class="nav-link">About Us</a>
                 </nav>
 

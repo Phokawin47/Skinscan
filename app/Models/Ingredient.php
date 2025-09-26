@@ -9,6 +9,7 @@ class Ingredient extends Model
 {
     use HasFactory;
 
+    protected $table = 'ingredients';
     protected $primaryKey = 'ingredient_id';
     public $timestamps = false;
 
@@ -17,6 +18,11 @@ class Ingredient extends Model
      */
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'product_ingredients', 'ingredient_id', 'product_id');
+        return $this->belongsToMany(
+            Product::class,              // Related model
+            'product_ingredients',       // Pivot table
+            'ingredient_id',             // Foreign key on pivot (Ingredient)
+            'product_id'                 // Foreign key on pivot (Product)
+        );
     }
 }
