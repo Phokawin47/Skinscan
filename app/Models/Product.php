@@ -4,32 +4,33 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-<<<<<<< HEAD
-use Illuminate\Database\Eloquent\SoftDeletes; 
-
-
-class Product extends Model
-{
-    use HasFactory, SoftDeletes; // ใช้งาน SoftDeletes
-
-    public $primaryKey = 'product_id'; // <--- เพิ่มบรรทัดนี้
-
-     protected $fillable = [
-        'product_name',
-        'image_path',
-        'usage_details',
-        'suitability_info', // <-- ฟิลด์นี้อาจจะยังต้องใช้ในหน้า Edit/Update
-        // เราไม่จำเป็นต้องใส่ ingredients, type, skin_type, category, description ที่นี่อีกแล้ว
-    ];
-=======
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'products';
     protected $primaryKey = 'product_id';
+    // If your PK is integer & auto-increment, these are fine (default); adjust if needed:
+    public $incrementing = true;
+    protected $keyType = 'int';
+
+    // If your table does NOT have created_at/updated_at, uncomment the next line:
+    // public $timestamps = false;
+
+    protected $fillable = [
+        'product_name',
+        'image_path',
+        'usage_details',
+        'suitability_info',
+        // include FKs if you mass-assign them:
+        'brand_id',
+        'category_id',
+        'added_by_user_id',
+    ];
+
     protected $appends = ['image_url'];
 
     /** Accessors **/
@@ -38,29 +39,20 @@ class Product extends Model
         $path = (string) ($this->image_path ?? '');
         $path = str_replace('\\', '/', $path);
 
-        // Full Windows-like path containing /public/product_image/
         if (Str::contains($path, '/public/product_image/')) {
             $filename = basename($path);
             return asset('product_image/' . $filename);
         }
-
-        // Only filename (e.g., xxx.jpg)
         if ($path && !Str::contains($path, '/')) {
             return asset('product_image/' . $path);
         }
-
-        // Relative like ./product_image/xxx.jpg or product_image/xxx.jpg
         if (Str::startsWith($path, ['./', 'product_image/'])) {
             $path = ltrim($path, './');
             return asset($path);
         }
-
-        // Already a full URL
         if (Str::startsWith($path, ['http://', 'https://'])) {
             return $path;
         }
-
-        // Fallback
         return asset('image/placeholder.png');
     }
 
@@ -84,9 +76,9 @@ class Product extends Model
     {
         return $this->belongsToMany(
             Ingredient::class,
-            'product_ingredients', // pivot
-            'product_id',          // FK to products
-            'ingredient_id'        // FK to ingredients
+            'product_ingredients',
+            'product_id',
+            'ingredient_id'
         );
     }
 
@@ -99,7 +91,4 @@ class Product extends Model
             'skin_type_id'
         );
     }
->>>>>>> 3e41b5404671912e97359b3c013be1db08e8c721
-
-    
 }
