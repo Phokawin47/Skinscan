@@ -8,8 +8,8 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            if (!Schema::hasColumn('products', 'updated_at')) {
-                $table->timestamp('updated_at')->nullable()->after('created_at');
+            if (!Schema::hasColumn('products', 'deleted_at')) {
+                $table->softDeletes();
             }
         });
     }
@@ -17,8 +17,8 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            if (Schema::hasColumn('products', 'updated_at')) {
-                $table->dropColumn('updated_at');
+            if (Schema::hasColumn('products', 'deleted_at')) {
+                $table->dropSoftDeletes();
             }
         });
     }
