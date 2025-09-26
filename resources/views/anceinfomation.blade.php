@@ -25,6 +25,7 @@
                     <a href="/Skinscan/home" class="nav-link">Home</a>
                     <a href="/Skinscan/anceinfomation" class="nav-link active">Acne Info</a>
                     <a href="/Skinscan/facescan" class="nav-link">Face Scan</a>
+                    <a href="/Skinscan/search" class="nav-link">Search Product</a>
                     <a href="/Skinscan/aboutus" class="nav-link">About Us</a>
                 </nav>
 

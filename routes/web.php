@@ -35,9 +35,17 @@ Route::get("/Skinscan/facescan",function(){
     return view("facescan");
 })->name("facescan.idx");
 
+Route::get('/Skinscan/search', [ProductController::class, 'index'])->name('search'); // replaces the closure
+Route::get('/search', [ProductController::class, 'index'])->name('products.search'); // optional alias
+
 Route::get("/Skinscan/aboutus",function(){
         return view("aboutus");
 })->name("aboutus.idx");
+
+
+Route::get("/Skinscan/product_management", function(){
+        return view("product_management");
+})->name("product_management.idx");
 
 
 Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
