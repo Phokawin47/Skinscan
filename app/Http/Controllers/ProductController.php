@@ -62,6 +62,12 @@ class ProductController extends Controller
         ]);
     }
 
+    public function best()
+    {
+        $products = Product::all();
+        return view('index', compact('products'));
+    }
+
     /**
      * Show create form
      */

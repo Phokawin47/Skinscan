@@ -48,11 +48,9 @@ Route::get("/Skinscan/product_management", function(){
 })->name("product_management.idx");
 
 
-Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
-Route::post('/product/store', [ProductController::class, 'store'])->name('product.stor');
-Route::post('/products', [ProductController::class, 'store'])->name('product.store');
-
-Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/products/create', [ProductController::class, 'create'])->name('product.create');
+Route::post('/product', [ProductController::class, 'store'])->name('product.store');
+Route::get('/products', [ProductController::class, 'best'])->name('products.index');
 
 
 Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
