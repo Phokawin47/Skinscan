@@ -42,16 +42,21 @@ Route::get("/Skinscan/aboutus",function(){
         return view("aboutus");
 })->name("aboutus.idx");
 
-
+// Fix error router product_management
 Route::get("/Skinscan/product_management", function(){
-        return view("product_management");
+    return redirect('/Skinscan/product_management/create'); view("product_management_create");
 })->name("product_management.idx");
 
-
-Route::get('/products/create', [ProductController::class, 'create'])->name('product.create');
+// Product Management Create
+Route::get("/Skinscan/product_management/create", function(){
+        return view("product_management_create");
+})->name("product_management_creat.idx");
 Route::post('/product', [ProductController::class, 'store'])->name('product.store');
-Route::get('/products', [ProductController::class, 'best'])->name('products.index');
 
+
+// Product Management Edit
+Route::get('/Skinscan/product_management/edit', [ProductController::class, 'edit'])->name('product_management_edit.idx');
+Route::get('/products/create', [ProductController::class, 'create'])->name('product.create');
 
 Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
 Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy'); // <-- เพิ่มบรรทัดนี้
