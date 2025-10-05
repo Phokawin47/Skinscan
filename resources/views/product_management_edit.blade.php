@@ -109,8 +109,8 @@
                         <a href="{{route('product_management_creat.idx')}}" class="btn-primary">
                             <span>Add</span>
                         </a>
-                        <a href="/Skinscan/anceinfomation" class="btn-secondary">
-                            <span>Product</span>
+                        <a href="{{route('product_management_edit.idx')}}" class="btn-secondary">
+                            <span>Products</span>
                         </a>
                     </div>
                 </div>

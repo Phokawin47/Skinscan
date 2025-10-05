@@ -73,7 +73,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('create'); // ensure resources/views/create.blade.php exists
+        return view('product_management_create'); // ensure resources/views/create.blade.php exists
     }
 
     /**
