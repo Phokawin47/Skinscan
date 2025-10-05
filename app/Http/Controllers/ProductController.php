@@ -62,10 +62,10 @@ class ProductController extends Controller
         ]);
     }
 
-    public function best()
+    public function edit()
     {
         $products = Product::all();
-        return view('index', compact('products'));
+        return view('product_management_edit', compact('products'));
     }
 
     /**
