@@ -7,25 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class ScanHistory extends Model
 {
-    use HasFactory;
-
     protected $table = 'scan_history';
     protected $primaryKey = 'scan_id';
-    public $timestamps = false; // We use scan_timestamp instead
+    public $timestamps = true;
 
-    /**
-     * Get the user that owns the scan history.
-     */
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id', 'id');
-    }
+    // เพิ่มเพื่อความชัดเจน
+    public $incrementing = true;
+    protected $keyType = 'int';
 
-    /**
-     * The acne types detected in this scan.
-     */
-    public function detectedAcnes()
-    {
-        return $this->belongsToMany(AcneType::class, 'scan_results', 'scan_id', 'acne_type_id');
-    }
+    protected $fillable = [
+        'user_id','skin_type','result_image_path'
+    ];
+
+    public function user() { return $this->belongsTo(User::class, 'user_id'); }
+    public function results() { return $this->hasMany(ScanResult::class, 'scan_id'); }
 }
+
+
+

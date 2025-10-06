@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -60,3 +61,7 @@ Route::get('/products/create', [ProductController::class, 'create'])->name('prod
 
 Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
 Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy'); // <-- เพิ่มบรรทัดนี้
+
+// Scan section
+
+
