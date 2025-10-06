@@ -13,6 +13,7 @@ class ProductCategory extends Model
     protected $primaryKey = 'category_id';
     public $timestamps = false;
 
+    protected $fillable = ['category_name']; 
     /**
      * Get the products for this category.
      */
