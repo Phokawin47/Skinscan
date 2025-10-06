@@ -80,7 +80,7 @@
     <footer></footer>
 
     <!-- Modal สำหรับแก้ไขข้อมูล -->
-    <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true" data-bs-backdrop="false">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -164,11 +164,16 @@
             var usageDetails = $(this).data('usage-details');
             var suitabilityInfo = $(this).data('suitability-info');
 
-            // Clear and set values
-            $('#edit-product-id').val(productId);
-            $('#edit-usage-details').prop('readonly', false).prop('disabled', false).val(usageDetails);
-            $('#edit-suitability-info').prop('readonly', false).prop('disabled', false).val(suitabilityInfo);
+            // Clear any existing modals
+            $('.modal-backdrop').remove();
+            $('body').removeClass('modal-open');
             
+            // Set values immediately
+            $('#edit-product-id').val(productId);
+            $('#edit-usage-details').val(usageDetails);
+            $('#edit-suitability-info').val(suitabilityInfo);
+            
+            // Show modal
             $('#editProductModal').modal('show');
         });
 
