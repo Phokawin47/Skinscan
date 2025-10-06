@@ -1,0 +1,270 @@
+/* ===== Admin Users — Force Minimal Light (scoped) ===== */
+/* ทุกอย่างจะทำงานเฉพาะที่มี ancestor .admin-users-page เท่านั้น */
+
+.admin-users-page {
+  /* design tokens */
+  --bg:        #f7f8fc;
+  --surface:   #ffffff;
+  --surface-2: #f9fafb;
+  --text:      #111827;   /* gray-900 */
+  --muted:     #6b7280;   /* gray-500 */
+  --border:    #e5e7eb;   /* gray-200 */
+
+  --primary:   #2563eb;   /* blue-600 */
+  --primary-600:#1d4ed8;
+  --ring-rgb:  37, 99, 235;
+
+  --thead:     #eef2ff;
+  --row:       #ffffff;
+  --row-alt:   #fbfcff;
+  --row-hover: #f2f6ff;
+
+  --radius:    14px;
+  --r-sm:      10px;
+
+  --shadow-sm: 0 1px 2px rgba(16,24,40,.06), 0 1px 3px rgba(16,24,40,.10);
+  --shadow-md: 0 12px 28px rgba(2,6,23,.10);
+
+  /* บังคับ light เสมอในพื้นที่นี้ */
+  color-scheme: light !important;
+  background: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+/* กันเคสที่ dark mode ใส่บน html/body ของธีมหลัก */
+html.dark .admin-users-page,
+body.dark .admin-users-page {
+  color-scheme: light !important;
+  background: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+/* Header / Nav */
+.admin-users-page .header .nav-link {
+  color: var(--text) !important;
+  opacity: .9;
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+.admin-users-page .header .nav-link.active,
+.admin-users-page .header .nav-link:hover {
+  background: var(--row-hover);
+  opacity: 1;
+}
+
+/* Card / Panel / Form container */
+.admin-users-page .card,
+.admin-users-page .search-panel,
+.admin-users-page .table-shell,
+.admin-users-page .admin-form {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Inputs */
+.admin-users-page .form-control,
+.admin-users-page .form-select,
+.admin-users-page input[type="text"],
+.admin-users-page input[type="email"],
+.admin-users-page input[type="number"],
+.admin-users-page select,
+.admin-users-page textarea {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border: 1.25px solid var(--border) !important;
+  border-radius: var(--r-sm);
+  height: 44px;
+  transition: border-color .15s ease, box-shadow .15s ease, background .2s ease;
+}
+.admin-users-page .form-control:focus,
+.admin-users-page .form-select:focus,
+.admin-users-page input:focus,
+.admin-users-page select:focus,
+.admin-users-page textarea:focus {
+  outline: none;
+  border-color: rgb(var(--ring-rgb)) !important;
+  box-shadow: 0 0 0 3px rgba(var(--ring-rgb), .25) !important;
+  background: var(--surface-2) !important;
+}
+.admin-users-page label,
+.admin-users-page .form-text {
+  color: var(--muted) !important;
+}
+
+/* Buttons */
+.admin-users-page .btn {
+  --bg: var(--primary);
+  background: var(--bg) !important;
+  color: #fff !important;
+  border: 0 !important;
+  border-radius: 12px;
+  padding: .72rem 1.1rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  box-shadow: 0 10px 22px rgba(var(--ring-rgb), .20);
+  transition: transform .05s ease, filter .15s ease, box-shadow .2s ease;
+}
+.admin-users-page .btn:hover   { filter: brightness(1.04); box-shadow: 0 12px 26px rgba(var(--ring-rgb), .26); }
+.admin-users-page .btn:active  { transform: translateY(1px); }
+.admin-users-page .btn-outline {
+  background: transparent !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: none !important;
+}
+.admin-users-page .btn-outline:hover { background: var(--row-hover) !important; }
+
+/* Table */
+.admin-users-page .table-shell { overflow: hidden; }
+.admin-users-page .table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.admin-users-page .table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--thead) !important;
+  color: #475569;  /* gray-600 */
+  font-weight: 800;
+  letter-spacing: .02em;
+  border-bottom: 1px solid var(--border) !important;
+  padding: 16px;
+}
+.admin-users-page .table tbody tr {
+  background: var(--row) !important;
+  transition: background .12s ease;
+}
+.admin-users-page .table tbody tr:nth-child(2n) { background: var(--row-alt) !important; }
+.admin-users-page .table tbody tr:hover      { background: var(--row-hover) !important; }
+.admin-users-page .table th,
+.admin-users-page .table td {
+  padding: 16px;
+  border-bottom: 1px solid var(--border) !important;
+  color: var(--text) !important;
+}
+
+/* Rounded corners */
+.admin-users-page .table thead th:first-child { border-top-left-radius: var(--radius); }
+.admin-users-page .table thead th:last-child  { border-top-right-radius: var(--radius); }
+.admin-users-page .table tbody tr:last-child td:first-child { border-bottom-left-radius: var(--radius); }
+.admin-users-page .table tbody tr:last-child  td:last-child  { border-bottom-right-radius: var(--radius); }
+
+/* Badges */
+.admin-users-page .badge {
+  display: inline-block;
+  padding: .26rem .6rem;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #334155;
+  font-size: .78rem;
+  font-weight: 700;
+  border: 1px solid #dbe4ff;
+}
+.admin-users-page .badge--admin   { background:#f8e8ff; color:#6b21a8; border-color:#e9d5ff; }
+.admin-users-page .badge--pm      { background:#e8fff2; color:#166534; border-color:#bbf7d0; }
+.admin-users-page .badge--general { background:#eef6ff; color:#1e40af; border-color:#dbeafe; }
+
+/* Links */
+.admin-users-page a { color: var(--primary) !important; text-decoration: none; }
+.admin-users-page a:hover { text-decoration: underline; }
+
+/* Scrollbar */
+.admin-users-page * { scrollbar-width: thin; scrollbar-color: #c6cbd3 transparent; }
+.admin-users-page *::-webkit-scrollbar { width: 10px; height: 10px; }
+.admin-users-page *::-webkit-scrollbar-thumb {
+  background: #ccd2da;
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+.admin-users-page *::-webkit-scrollbar-thumb:hover { background: #bfc6cf; }
+/* ============ Dark accents (เพิ่มความเข้มให้มองเห็นชัด) ============ */
+.admin-users-page {
+  /* กำหนดโทนดำหลักที่อยากใช้ */
+  --ink: #111111;
+  --pill-bg: #111111;   /* พื้นหลังป้าย */
+  --pill-text: #ffffff; /* ตัวอักษรบนป้าย */
+}
+
+/* ป้าย Role ให้เป็นดำตัวอักษรขาว */
+.admin-users-page .badge,
+.admin-users-page .badge--admin,
+.admin-users-page .badge--pm,
+.admin-users-page .badge--general {
+  background: var(--pill-bg) !important;
+  color: var(--pill-text) !important;
+  border-color: var(--pill-bg) !important;
+}
+
+/* อินพุต/เซเล็กต์: ขอบดำ ตัวหนังสือดำ โฟกัสเป็นเงาดำ */
+.admin-users-page .form-control,
+.admin-users-page .form-select {
+  color: var(--ink) !important;
+  border-color: var(--ink) !important;
+}
+.admin-users-page .form-control:focus,
+.admin-users-page .form-select:focus {
+  background: #fff !important;
+  border-color: var(--ink) !important;
+  box-shadow: 0 0 0 3px rgba(0,0,0,.25) !important;
+}
+
+/* ปุ่มแบบขอบ (เช่น “ล้าง/ยกเลิก”) ให้เส้นขอบดำ/ตัวหนังสือดำ */
+.admin-users-page .btn.btn-outline,
+.admin-users-page .btn.btn-outline-secondary,
+.admin-users-page .btn.btn-outline-primary {
+  color: var(--ink) !important;
+  border-color: var(--ink) !important;
+}
+.admin-users-page .btn.btn-outline:hover,
+.admin-users-page .btn.btn-outline-secondary:hover,
+.admin-users-page .btn.btn-outline-primary:hover {
+  background: #f2f2f2 !important;
+}
+
+/* ตัวหนังสือในตารางให้เข้มขึ้น */
+.admin-users-page .table th,
+.admin-users-page .table td {
+  color: var(--ink) !important;
+}
+/* -------- Role chip (แยกออกจาก .badge) -------- */
+.admin-users-page .role-pill{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:70px;               /* กว้างพอให้เห็นตัวอักษรชัด */
+  padding:.28rem .7rem;
+  border-radius:999px;
+  font-weight:700;
+  line-height:1;
+  letter-spacing:.01em;
+  border:1px solid transparent;
+  user-select:none;
+}
+
+/* มี role -> ดำตัวอักษรขาว */
+.admin-users-page .role-pill.is-filled{
+  background:#111111;           /* ดำ */
+  color:#ffffff;
+  border-color:#111111;
+}
+
+/* ไม่มี role -> โทนอ่อนตัดพื้น */
+.admin-users-page .role-pill.is-empty{
+  background:#f1f5f9;           /* slate-100 */
+  color:#475569;                /* slate-600 */
+  border-color:#e2e8f0;         /* slate-200 */
+}
+
+/* กันการชนจาก .badge เดิม (ถ้ามีหลงเหลือ) */
+.admin-users-page .badge{
+  background:initial!important;
+  color:inherit!important;
+  border-color:transparent!important;
+}

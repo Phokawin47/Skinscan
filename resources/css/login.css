@@ -1,0 +1,251 @@
+/* ===== Layout: ศูนย์กลางพอดี, พื้นหลังนุ่มตา ===== */
+.min-h-screen.flex {
+  justify-content: center;
+  align-items: center;
+  padding: 56px 16px;
+  background: radial-gradient(1200px 650px at 70% 0%, #eef2ff 0%, #f8fafc 55%, #f4f7fa 100%);
+}
+
+/* ===== Card: เงานุ่ม มุมโค้ง ระยะห่างพอดี ===== */
+div[class*="sm:max-w-md"][class*="bg-white"] {
+  max-width: 460px;
+  border-radius: 16px;
+  padding: 28px 28px 32px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.10), 0 8px 20px rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+/* ===== Logo: แสดงเต็ม ไม่ตัด, จัดกลาง, มีเงาเบา ๆ ===== */
+.footer-logo-img,
+.x-authentication-card-logo img,
+.x-authentication-card-logo svg {
+  display: block;
+  margin: 0 auto 14px auto;
+  width: 96px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 0;            /* ไม่ครอบกลม */
+  box-shadow: 0 8px 24px rgba(99, 102, 241, .20);
+  transition: transform .2s ease;
+}
+.footer-logo-img:hover { transform: scale(1.03); }
+
+/* ===== Label & Input ===== */
+form[action*="login"] label {
+  font-weight: 600;
+  color: #1e293b;             /* slate-800 */
+}
+form[action*="login"] input[type="text"],
+form[action*="login"] input[type="email"],
+form[action*="login"] input[type="password"] {
+  border: 1.5px solid #e2e8f0;     /* slate-200 */
+  border-radius: 12px;
+  background: #f8fbff;             /* โทนอ่อนให้อ่านค่าได้ */
+  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+form[action*="login"] input:focus {
+  border-color: #6366f1;           /* indigo-500 */
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, .20);
+  background: #ffffff;
+}
+
+/* Checkbox */
+form[action*="login"] input[type="checkbox"] {
+  width: 1rem; height: 1rem; border-radius: 6px;
+  border-color: #cbd5e1;           /* slate-300 */
+}
+
+/* ===== Action row: ลิงก์ซ้าย / ปุ่มขวา ===== */
+form[action*="login"] .mt-6,
+form[action*="login"] .mt-4 { margin-top: 1rem !important; }
+
+form[action*="login"] .actions-row {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+/* ลิงก์ Forgot / Create account */
+form[action*="login"] a[href*="password"],
+form[action*="login"] a[href*="register"] {
+  color: #4f46e5;                 /* indigo-600 */
+  text-decoration: none;
+  font-weight: 500;
+}
+form[action*="login"] a[href*="password"]:hover,
+form[action*="login"] a[href*="register"]:hover {
+  color: #4338ca;                 /* indigo-700 */
+  text-decoration: underline;
+}
+
+/* ปุ่ม Log in */
+form[action*="login"] button[type="submit"],
+form[action*="login"] .inline-flex[type="submit"] {
+  min-width: 130px;
+  padding: 0.85rem 1.1rem;
+  border: 0; border-radius: 12px;
+  background: linear-gradient(90deg, #4f46e5, #7c3aed);
+  color: #fff !important;
+  font-weight: 700; letter-spacing: .02em;
+  transition: transform .05s ease, filter .15s ease;
+}
+form[action*="login"] button[type="submit"]:hover { filter: brightness(1.05); }
+form[action*="login"] button[type="submit"]:active { transform: translateY(1px); }
+
+/* ===== จัด row ล่างให้สวยโดยไม่ต้องแก้ Blade ===== */
+form[action*="login"] .flex.items-center.justify-end.mt-4 {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+}
+form[action*="login"] .flex.items-center.justify-end.mt-4 > a:first-child {
+  justify-self: start;           /* Forgot your password? */
+}
+form[action*="login"] .flex.items-center.justify-end.mt-4 > .text-sm.font-medium,
+form[action*="login"] a[href*="register"] {
+  margin-left: 0;                /* ลบ ms-4 ที่ Blade ใส่มา */
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 480px) {
+  .min-h-screen.flex { padding: 36px 14px; }
+  div[class*="sm:max-w-md"][class*="bg-white"] { padding: 24px 20px; }
+  form[action*="login"] button[type="submit"] { width: 100%; }
+  form[action*="login"] .flex.items-center.justify-end.mt-4 {
+    grid-template-columns: 1fr;
+    row-gap: 12px;
+  }
+}
+/* ===== Actions row: ลิงก์ซ้าย (2 บรรทัด) | ปุ่มขวา ===== */
+form[action*="login"] .actions-row {
+  display: grid;
+  grid-template-columns: 1fr auto;  /* ซ้ายลิงก์ / ขวาปุ่ม */
+  align-items: center;
+  gap: 16px;
+}
+
+form[action*="login"] .actions-row .links {
+  display: flex;
+  gap: 16px;           /* ระยะห่างระหว่างสองลิงก์ */
+  align-items: center; /* จัดแนวตัวหนังสือให้เสมอกัน */
+  flex-wrap: wrap;     /* จอเล็กมากค่อยตัดขึ้นบรรทัดใหม่ */
+}
+form[action*="login"] .actions-row .link {
+  color: #4f46e5;
+  font-weight: 500;
+  text-decoration: none;
+}
+form[action*="login"] .actions-row .link:hover {
+  color: #4338ca;
+  text-decoration: underline;
+}
+
+/* ปุ่ม login ให้ขนาดคงที่และชิดขวา */
+form[action*="login"] .actions-row .inline-flex,
+form[action*="login"] .actions-row button[type="submit"] {
+  min-width: 140px;
+  justify-self: end;
+}
+
+/* Mobile: สลับเป็นซ้อนบรรทัด, ปุ่มเต็มความกว้าง */
+@media (max-width: 480px) {
+  form[action*="login"] .actions-row {
+    grid-template-columns: 1fr;
+  }
+  form[action*="login"] .actions-row .inline-flex,
+  form[action*="login"] .actions-row button[type="submit"] {
+    width: 100%;
+    justify-self: stretch;
+  }
+}
+/* แถวล่าง: ลิงก์ซ้าย (แนวนอน) | ปุ่มขวา */
+form[action*="login"] .actions-row{
+  display:grid;
+  grid-template-columns:1fr auto; /* ซ้ายลิงก์ / ขวาปุ่ม */
+  align-items:center;
+  gap:16px;
+  margin-top:1.25rem;
+}
+
+/* กล่องรวมลิงก์สองอัน (ให้อยู่บรรทัดเดียวและระยะเท่ากัน) */
+form[action*="login"] .actions-row .links{
+  display:flex;
+  gap:18px;
+  align-items:center;
+  flex-wrap:wrap; /* จอเล็กค่อยตัดบรรทัด */
+}
+
+/* สไตล์ลิงก์ + โฟกัส */
+form[action*="login"] .actions-row .links a{
+  color:#4f46e5;
+  font-weight:500;
+  text-decoration:none;
+  outline: none;
+}
+form[action*="login"] .actions-row .links a:hover{
+  color:#4338ca;
+  text-decoration:underline;
+}
+form[action*="login"] .actions-row .links a:focus-visible{
+  box-shadow:0 0 0 3px rgba(99,102,241,.25);
+  border-radius:6px;
+}
+
+/* ปุ่มให้ชิดขวาเสมอ และขนาดคงที่ */
+form[action*="login"] .actions-row button[type="submit"]{
+  justify-self:end;
+  min-width:140px;
+}
+
+/* Mobile */
+@media (max-width:480px){
+  form[action*="login"] .actions-row{ grid-template-columns:1fr; row-gap:12px; }
+  form[action*="login"] .actions-row button[type="submit"]{ width:100%; justify-self:stretch; }
+}
+/* ==== BG ซ้าย-ขวา วางทับบน gradient ของหน้า ==== */
+/* ถ้าเก็บรูปไว้ที่ resources/images ให้ใช้แบบนี้ */
+.min-h-screen.flex {
+  /* gradient ล่างสุด */
+  background:
+    url("../images/left-face.png") no-repeat left bottom,
+    url("../images/right-face.png") no-repeat right bottom,
+    radial-gradient(1200px 650px at 70% 0%, #eef2ff 0%, #f8fafc 55%, #f4f7fa 100%);
+  /* ขนาดรูป: สูง 75% ของ viewport, กว้างปรับอัตโนมัติ */
+  background-size: auto 75%, auto 75%, cover;
+}
+
+/* ถ้าเก็บรูปไว้ที่ public/images ให้ใช้เส้นทางแบบ absolute แทน (เลือกอย่างใดอย่างหนึ่ง) */
+/*
+.min-h-screen.flex {
+  background:
+    url("/images/left-face.png") no-repeat left bottom,
+    url("/images/right-face.png") no-repeat right bottom,
+    radial-gradient(1200px 650px at 70% 0%, #eef2ff 0%, #f8fafc 55%, #f4f7fa 100%);
+  background-size: auto 75%, auto 75%, cover;
+}
+*/
+
+/* ปรับขนาดบนจอใหญ่/กลาง/เล็ก */
+@media (max-width: 1280px) {
+  .min-h-screen.flex { background-size: auto 60%, auto 60%, cover; }
+}
+@media (max-width: 1024px) {
+  .min-h-screen.flex { background-size: auto 45%, auto 45%, cover; }
+}
+@media (max-width: 640px) {
+  /* มือถือ: ซ่อนภาพ ให้เหลือแค่ gradient */
+  .min-h-screen.flex {
+    background:
+      radial-gradient(1000px 600px at 70% 10%, #eef2ff 0%, #f8fafc 55%, #f4f7fa 100%);
+    background-size: cover;
+  }
+}
+
+/* ถ้ารูปต่ำไป/สูงไป อยากขยับขึ้น 24px */
+.min-h-screen.flex {
+  /* ตัวอย่างขยับขึ้นเล็กน้อย (ปรับตามต้องการ) */
+  background-position:
+    left calc(100% - 24px),
+    right calc(100% - 24px),
+    center top;
+}

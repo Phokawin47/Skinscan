@@ -17,6 +17,8 @@ use Laravel\Fortify\Contracts\LogoutResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Laravel\Fortify\Contracts\RegisterResponse;
+use App\Actions\Fortify\CustomRegisterResponse;
 
 
 class FortifyServiceProvider extends ServiceProvider
@@ -39,7 +41,7 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
         Fortify::redirectUserForTwoFactorAuthenticationUsing(RedirectIfTwoFactorAuthenticatable::class);
-
+        $this->app->singleton(RegisterResponse::class, CustomRegisterResponse::class);
         Fortify::authenticateUsing(function(Request $request){
             $user = User::where("email" , $request->login)
                 ->orwhere("username", $request->login)

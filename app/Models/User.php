@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,32 +9,33 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
+// ⬇️ import โมเดลที่ใช้งาน
+use App\Models\Role;
+use App\Models\SkinType;
+use App\Models\ScanHistory;
+use App\Models\Product;
+
 class User extends Authenticatable
 {
-    use HasApiTokens;
-    use HasFactory;
-    use HasProfilePhoto;
-    use Notifiable;
-    use TwoFactorAuthenticatable;
+    use HasApiTokens, HasFactory, HasProfilePhoto, Notifiable, TwoFactorAuthenticatable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    /** @var array<int, string> */
     protected $fillable = [
-        'username', // แก้จาก name เป็น username
+        'username',
         'first_name',
         'last_name',
         'email',
         'password',
+        // fields for onboarding
+        'gender',
+        'age',
+        'is_sensitive_skin',
+        'allergies',
+        'role_id',
+        'skin_type_id',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+    /** @var array<int, string> */
     protected $hidden = [
         'password',
         'remember_token',
@@ -43,57 +43,73 @@ class User extends Authenticatable
         'two_factor_secret',
     ];
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array<int, string>
-     */
+    /** @var array<int, string> */
     protected $appends = [
         'profile_photo_url',
+        'name', // ให้เข้ากับ Jetstream ที่อ้าง $user->name
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    /** @return array<string, string> */
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'password'          => 'hashed',
+            'age'               => 'integer',
+            'is_sensitive_skin' => 'boolean',
         ];
     }
 
-    // ========== เพิ่มความสัมพันธ์ด้านล่างนี้เข้าไป ==========
+    /* ================== Accessors & Helpers ================== */
 
-    /**
-     * Get the role associated with the user.
-     */
+    // ให้ Jetstream ใช้ $user->name ได้ แม้เราจะแยก first/last
+    public function getNameAttribute(): string
+    {
+        return trim(($this->first_name ?? '') . ' ' . ($this->last_name ?? '')) ?: ($this->username ?? '');
+    }
+
+    // ใช้ใน middleware เพื่อเช็กว่า profile กรอกครบหรือยัง
+    public function isProfileComplete(): bool
+    {
+        $required = ['gender', 'age', 'skin_type_id']; // ปรับตามที่ต้องการบังคับ
+        foreach ($required as $f) {
+            if (empty($this->{$f})) return false;
+        }
+        return true;
+    }
+
+    /** เช็คบทบาทของผู้ใช้ (รองรับหลายค่า) */
+    public function hasRole(string|array $roles): bool
+    {
+        $current = optional($this->role)->role_name; // 'general' | 'product_manager' | 'admin'
+        return is_array($roles) ? in_array($current, $roles, true) : $current === $roles;
+    }
+
+    /** ช่วยเรียกสั้น ๆ */
+    public function isAdmin(): bool
+    {
+        return $this->hasRole('admin');
+    }
+
+    /* ================== Relationships ================== */
+
     public function role()
     {
+        // ระบุ owner key ให้ตรงกับตาราง roles (PK = role_id)
         return $this->belongsTo(Role::class, 'role_id', 'role_id');
     }
 
-    /**
-     * Get the skin type associated with the user.
-     */
     public function skinType()
     {
+        // ระบุ owner key ให้ตรงกับตาราง skin_types (PK = skin_type_id)
         return $this->belongsTo(SkinType::class, 'skin_type_id', 'skin_type_id');
     }
 
-    /**
-     * Get the scan histories for the user.
-     */
     public function scanHistories()
     {
         return $this->hasMany(ScanHistory::class, 'user_id', 'id');
     }
 
-    /**
-     * Get the products added by the user (product manager).
-     */
     public function addedProducts()
     {
         return $this->hasMany(Product::class, 'added_by_user_id', 'id');
