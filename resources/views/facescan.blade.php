@@ -8,7 +8,10 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
-    <!-- Header -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <x-app-header />
+
+    <main style="display:none;"><!-- Old header -->
     <header class="header">
         <div class="container">
             <div class="nav-wrapper">
@@ -99,7 +102,7 @@
             </a>
             </nav>
         </div>
-    </header>
+    </header></main><!-- End old header -->
 
     <main>
         <div class="container">
