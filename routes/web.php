@@ -33,10 +33,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/onboarding', [OnboardingController::class, 'store'])->name('onboarding.store');
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::middleware([
     'auth:sanctum', // หรือ 'auth' เฉยๆ หากไม่ได้ใช้ Sanctum
     config('jetstream.auth_session'),
@@ -115,7 +111,6 @@ Route::middleware($authStack)->group(function () {
 | ADMIN (หลังบ้าน) — จำกัดสิทธิ์ admin เท่านั้น
 |--------------------------------------------------------------------------
 */
-
 Route::middleware(['auth','role:admin'])
     ->prefix('/admin')
     ->name('admin.')
@@ -123,6 +118,5 @@ Route::middleware(['auth','role:admin'])
         Route::get('/users',            [UserAdminController::class, 'index'])->name('users.index');
         Route::get('/users/{user}/edit',[UserAdminController::class, 'edit'])->name('users.edit');
         Route::put('/users/{user}',     [UserAdminController::class, 'update'])->name('users.update');
-        Route::delete('/users/{user}',  [UserAdminController::class, 'destroy'])->name('users.destroy'); // ถ้าต้องการลบ
+        Route::delete('/users/{user}',  [UserAdminController::class, 'destroy'])->name('users.destroy');
     });
-

@@ -7,16 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class AcneType extends Model
 {
-    use HasFactory;
-
+    protected $table = 'acne_types';
     protected $primaryKey = 'acne_type_id';
-    public $timestamps = false;
-
-    /**
-     * The scan histories that detected this acne type.
-     */
-    public function scanHistories()
-    {
-        return $this->belongsToMany(ScanHistory::class, 'scan_results', 'acne_type_id', 'scan_id');
-    }
+    protected $fillable = ['acne_type_name'];
 }
+

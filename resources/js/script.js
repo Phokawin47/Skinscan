@@ -169,17 +169,6 @@ function handleFileUpload(event) {
 window.handleFileUpload = handleFileUpload;
 
 function startScan(imageUrl) {
-    let age_input = document.getElementById("age").value;
-    let gender_input = document.getElementById("gender").value;
-    let skinType_input = document.getElementById("skinType").value;
-    if (age_input > 90){
-        alert("ข้อมูลไม่ถูกต้อง");
-        return;
-    }
-    if (age_input === "" || gender_input === "" || skinType_input === "") {
-        alert("กรุณากรอกข้อมูลให้ครบถ้วน");
-        return; // หยุดการทำงานหากข้อมูลไม่ครบ
-    }
 
     // Hide current step
     document.getElementById('uploadMode').classList.remove('active');
@@ -195,6 +184,18 @@ function startScan(imageUrl) {
 
 }
 window.startScan = startScan;
+
+document.getElementById('fileInput').addEventListener('change', async (e) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = async () => {
+    const dataUrl = reader.result; // รูปแบบ: data:image/png;base64,AAAA...
+    await sendImageToAPI(dataUrl); // ส่งให้ backend
+  };
+  reader.readAsDataURL(file);
+});
 
 function showResults(imageUrl) {
     // Hide scanning state
@@ -245,6 +246,7 @@ function resetScan() {
     // Reset variables
     currentScanMode = null;
 }
+
 window.resetScan = resetScan;
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
@@ -327,14 +329,6 @@ window.addEventListener('beforeunload', function() {
 });
 
 
-function getUserInput() {
-    return {
-        age: document.getElementById("age")?.value || "",
-        gender: document.getElementById("gender")?.value || "",
-        allergy: document.getElementById("allergy")?.value || "",
-        skinType: document.getElementById("skinType")?.value || ""
-    };
-}
 
 let rulesData = null;
 const rulesUrl = new URL('./rules.json', import.meta.url);
@@ -358,23 +352,48 @@ function dataURLtoBlob(dataURL) {
   return new Blob([arr], { type: mime });
 }
 
+function getCookie(name) {
+  const m = document.cookie.match(new RegExp('(^|; )' + name + '=([^;]*)'));
+  return m ? decodeURIComponent(m[2]) : null;
+}
+
+let csrfReady = false;
+async function ensureCsrf() {
+  if (csrfReady) return;
+  await fetch('/sanctum/csrf-cookie', { credentials: 'include' });
+  csrfReady = true;
+}
+
+async function saveScanToBackend(payload) {
+  await ensureCsrf();  // สำคัญ!
+  const xsrf = getCookie('XSRF-TOKEN');
+  const res = await fetch('/api/scan-results', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-XSRF-TOKEN': xsrf,      // สำคัญ!
+    },
+    credentials: 'include',      // สำคัญ! ให้เบราว์เซอร์แนบ session cookie
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) throw new Error(`saveScanToBackend error: ${res.status} ${res.statusText}: ${await res.text()}`);
+  return res.json();
+}
+
+
+
 // ส่งภาพไปยัง API และแสดงผลลัพธ์
-const api_predict = (location.hostname === "localhost" || location.hostname === "10.225.0.13") ? "http://10.225.0.13:8002/predict" : "/api/predict";
+const api_predict = (location.hostname === "localhost" || location.hostname === "10.225.0.13") ? "http://10.225.0.13:8001/predict" : "/api/predict";
 
 // ส่งภาพไปยัง API และแสดงผลลัพธ์ (แบบ multipart/form-data)
 async function sendImageToAPI(base64Image) {
   const imgTag = document.getElementById("resultImage");
-  const u = getUserInput();
 
   const form = new FormData();
   form.append('file', dataURLtoBlob(base64Image), 'capture.jpg');
-  form.append('age', u.age || '');
-  form.append('gender', u.gender || '');
-  form.append('allergy', u.allergy || '');
-  form.append('skinType', u.skinType || '');
 
   try {
-    // ใช้ตัวแปร api_predict ที่ประกาศไว้แล้ว เพื่อไม่ hardcode URL
+    // เรียกโมเดลก่อน (api_predict)
     const res = await fetch(api_predict, { method: 'POST', body: form });
 
     if (!res.ok) {
@@ -382,15 +401,13 @@ async function sendImageToAPI(base64Image) {
       throw new Error(`Server returned ${res.status}: ${msg}`);
     }
 
-    // ✅ ต้อง parse JSON มาก่อน แล้วค่อยใช้
     const result = await res.json();
 
-    // เซ็ตภาพผลลัพธ์
-    const resultImageUrl = "data:image/jpeg;base64," + result.image;
-    imgTag.src = resultImageUrl;
+    // ===== แสดงรูปผลลัพธ์จากโมเดล =====
+    const annotatedDataUrl = "data:image/jpeg;base64," + result.image;
+    imgTag.src = annotatedDataUrl;
     imgTag.style.display = "block";
 
-    // กรณีไม่พบสิว (รองรับได้ทั้งแบบ object มี key no_detections หรือ array ว่าง)
     const rr = result["rule_response"];
     const noDetections =
       (rr && rr.no_detections) ||
@@ -398,21 +415,40 @@ async function sendImageToAPI(base64Image) {
 
     if (noDetections) {
       noresult();
-      showResults(resultImageUrl);
-      return result;
+      showResults(annotatedDataUrl);
+      // ยังสามารถบันทึกรูปเปล่า ๆ ได้ถ้าต้องการ
+      // return result;
     }
 
-    // ดันผลลัพธ์ไปแสดง
+    // ดันผลลัพธ์ไปแสดงอื่น ๆ
     result_push(result);
-
-    // อาจโหลด rules.json ยังไม่เสร็จในบางจังหวะ ให้กัน null ไว้
     if (rulesData) {
       product_push(result, rulesData);
     } else {
       console.warn("rulesData ยังไม่พร้อม: ข้าม product_push รอบนี้");
     }
 
-    showResults(resultImageUrl);
+    showResults(annotatedDataUrl);
+
+    // ===== เตรียม payload ให้ตรงกับ Controller =====
+    // map detections ให้เป็น array ของ { class_id, class_name }
+    const detections = (result.detections || []).map(d => ({
+      class_id: typeof d.class_id === 'number' ? d.class_id
+              : (typeof d.class_id === 'string' ? parseInt(d.class_id, 10) : null),
+      class_name: d.class_name ?? null,
+    }));
+
+    // *** จุดสำคัญ: ต้องมี result_image_base64 และ field ชื่อ "result.detections" ***
+    const payload = {
+      result_image_base64: annotatedDataUrl,     // << ใช้ภาพที่ใส่กรอบบันทึกลง DB
+      skin_type: 'unknown',
+      result: { detections },                    // << ต้องห่อใน result.detections
+      // (ถ้าอยากส่ง rule_response ไปเก็บเพิ่ม ให้ backend รองรับเพิ่มเอง)
+    };
+
+    const saved = await saveScanToBackend(payload);
+    console.log('Saved:', saved);
+
     return result;
 
   } catch (err) {
@@ -420,6 +456,7 @@ async function sendImageToAPI(base64Image) {
     alert("เกิดข้อผิดพลาดในการวิเคราะห์ผิว");
   }
 }
+
 
 
 function result_push(result) {

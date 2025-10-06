@@ -84,6 +84,7 @@
                                         <div class="text-danger mt-1">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                {{-- *** สิ้นสุดส่วนที่แก้ไข Ingredients *** --}}
 
                                 <!-- ช่องกรอกแบรนด์อื่นๆ -->
                                 <div class="mb-3" id="newBrandInputContainer" style="display: {{ old('selected_brand_id') == 'other_brand' ? 'block' : 'none' }};">
