@@ -136,31 +136,6 @@
                 <!-- Mode Selection -->
                 <div id="modeSelection" class="scan-step active">
                     <h2>เริ่มการวิเคราะห์ผิวหน้าของคุณ</h2>
-                    <form id="userInfoForm" class="user-info-form">
-                        <h3>กรอกข้อมูลเบื้องต้นของคุณ</h3>
-                        <label for="age">อายุ:</label>
-                        <input type="number" id="age" name="age" min="1" max="90" required>
-
-                        <label for="gender">เพศ:</label>
-                        <select id="gender" name="gender" required>
-                            <option value="">-- เลือกเพศ --</option>
-                            <option value="male">ชาย</option>
-                            <option value="female">หญิง</option>
-                        </select>
-
-                        <label for="allergy">สารที่แพ้ (หากมี):</label>
-                        <input type="text" id="allergy" name="allergy" placeholder="เช่น แอลกอฮอล์, น้ำหอม">
-
-                        <label for="skinType">สภาพผิว:</label>
-                        <select id="skinType" name="skinType" required>
-                            <option value="">-- เลือกสภาพผิว --</option>
-                            <option value="ผิวแห้ง">ผิวแห้ง</option>
-                            <option value="ผิวมัน">ผิวมัน</option>
-                            <option value="ผิวบอบบาง">ผิวบอบบาง</option>
-                            <option value="ผิวผสม">ผิวผสม</option>
-                        </select>
-                    </form>
-
                     <div class="scan-methods">
                         <button class="scan-method" onclick="selectScanMode('camera')">
                             <i class="fas fa-camera"></i>
