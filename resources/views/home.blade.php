@@ -109,7 +109,7 @@
             </nav>
         </div>
     </header>
-    <x-app-header />
+    
 
     <!-- Main Content -->
     <main>
