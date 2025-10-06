@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Ingredient;
+use App\Models\SkinType;
+use App\Models\ProductCategory;
+use App\Models\Brand; // **เพิ่มบรรทัดนี้**
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -22,8 +27,8 @@ class ProductController extends Controller
             ->map(fn ($t) => mb_strtolower($t))
             ->values();
 
-        // dropdown options
-        $skinOptions = Product::query()
+        // dropdown options (เป็นของหน้า search/list page)
+        $skinOptionsForSearch = Product::query()
             ->select('suitability_info')
             ->whereNotNull('suitability_info')
             ->where('suitability_info', '<>', '')
@@ -55,7 +60,7 @@ class ProductController extends Controller
 
         return view('search', [
             'products'    => $products,
-            'skinOptions' => $skinOptions,
+            'skinOptions' => $skinOptionsForSearch, // ใช้สำหรับหน้า search/list
             'q'           => $q,
             'ingredient'  => $ingRaw,
             'acneType'    => $acneType,
@@ -73,22 +78,57 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('product_management_create'); // ensure resources/views/create.blade.php exists
+        $ingredients = Ingredient::orderBy('ingredient_name')->get();
+        $skinTypes = SkinType::orderBy('skin_type_name')->get();
+        $productCategories = ProductCategory::orderBy('category_name')->get();
+        $suitabilityOptions = Product::query()
+            ->select('suitability_info')
+            ->whereNotNull('suitability_info')
+            ->where('suitability_info', '<>', '')
+            ->distinct()
+            ->orderBy('suitability_info')
+            ->pluck('suitability_info');
+
+        // **เพิ่ม: ดึงรายการแบรนด์ทั้งหมดและส่งไปยัง view**
+        $brands = Brand::orderBy('brand_name')->get();
+
+
+        return view('product_management_create', compact(
+            'ingredients',
+            'skinTypes',
+            'productCategories',
+            'suitabilityOptions',
+            'brands' // **ส่ง brands ไปยัง view**
+        ));
     }
 
-    /**
+/**
      * Store new product
      */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name'        => 'required|string|max:255',
-            'ingredients' => 'required|string',
-            'type'        => 'required|string',
-            'skin_type'   => 'required|string',
-            'category'    => 'required|string',
-            'description' => 'required|string',
-            'image'       => 'required|image|mimes:jpg,png,jpeg,gif|max:2048',
+            'name'          => 'required|string|max:255',
+            'selected_ingredients' => 'nullable|array',
+            'selected_ingredients.*' => 'nullable|string',
+            'new_ingredient_name' => 'nullable|string|max:255',
+            'selected_product_category_id' => 'required|integer|exists:product_categories,category_id',
+            'suitability_info' => 'required|string',
+            'selected_skin_type_id' => 'nullable|integer|exists:skin_types,skin_type_id',
+            'selected_brand_id' => [
+                'nullable',
+                'string',
+                function ($attribute, $value, $fail) {
+                    if ($value !== 'other_brand' && $value !== null && $value !== '') {
+                        if (!is_numeric($value) || !Brand::where('brand_id', $value)->exists()) {
+                            $fail("The selected brand is invalid.");
+                        }
+                    }
+                },
+            ],
+            'new_brand_name'    => 'nullable|string|max:255',
+            'description'   => 'required|string',
+            'image'         => 'required|image|mimes:jpg,png,jpeg,gif|max:2048',
         ]);
 
         $imagePath = null;
@@ -96,22 +136,118 @@ class ProductController extends Controller
             $imagePath = $request->file('image')->store('products', 'public');
         }
 
-        $usageDetailsText =
-            "สารที่เกี่ยวข้อง: {$validatedData['ingredients']}\n" .
-            "ประเภทสกินแคร์: {$validatedData['type']}\n" .
-            "ความเหมาะสมสำหรับผิวหน้า: {$validatedData['skin_type']}\n" .
-            "ประเภทผิว: {$validatedData['category']}\n\n" .
-            "รายละเอียด / วิธีการใช้:\n{$validatedData['description']}";
+        // --- ประมวลผลสารที่เกี่ยวข้อง (Ingredients) ---
+        $ingredientNamesForUsageDetails = [];
+        $ingredientIdsToAttach = [];
+
+        if (!empty($request->input('selected_ingredients'))) {
+            foreach ($request->input('selected_ingredients') as $selectedIdOrOther) {
+                if ($selectedIdOrOther === 'other_ingredient') {
+                    continue;
+                }
+                if (is_numeric($selectedIdOrOther)) {
+                    $ingredientIdsToAttach[] = (int) $selectedIdOrOther;
+                }
+            }
+        }
+
+        if (!empty($validatedData['new_ingredient_name'])) {
+            $newIngredientName = trim($validatedData['new_ingredient_name']);
+            if (!empty($newIngredientName)) {
+                $ingredient = Ingredient::firstOrCreate(['ingredient_name' => $newIngredientName]);
+                $ingredientIdsToAttach[] = $ingredient->ingredient_id;
+            }
+        }
+
+        if (!empty($ingredientIdsToAttach)) {
+            $ingredientNamesForUsageDetails = Ingredient::whereIn('ingredient_id', array_unique($ingredientIdsToAttach))
+                                                        ->pluck('ingredient_name')
+                                                        ->toArray();
+        }
+
+        // --- ประมวลผลประเภทผิว (Skin Types - Single Select) ---
+        $selectedSkinTypeId = $validatedData['selected_skin_type_id'] ?? null;
+        $skinTypeNameForUsageDetails = null;
+
+        if ($selectedSkinTypeId) {
+            $skinTypeNameForUsageDetails = SkinType::find($selectedSkinTypeId)->skin_type_name ?? null;
+        }
+
+        // --- ประมวลผลประเภทสกินแคร์ (Product Category - Single Select) ---
+        $selectedProductCategoryId = $validatedData['selected_product_category_id'];
+        $productCategoryNameForUsageDetails = ProductCategory::find($selectedProductCategoryId)->category_name ?? null;
+
+        // --- ดึงค่าความเหมาะสมสำหรับผิวหน้า ---
+        $selectedSuitabilityInfo = $validatedData['suitability_info'];
+
+        // --- ประมวลผลแบรนด์ (Brand) ---
+        $selectedBrandId = null;
+        $brandNameForUsageDetails = null;
+        $selectedBrandInput = $request->input('selected_brand_id');
+
+        if ($selectedBrandInput === 'other_brand' && !empty($validatedData['new_brand_name'])) {
+            $newBrandName = trim($validatedData['new_brand_name']);
+            if (!empty($newBrandName)) {
+                $brand = Brand::firstOrCreate(['brand_name' => $newBrandName]);
+                $selectedBrandId = $brand->brand_id;
+                $brandNameForUsageDetails = $brand->brand_name;
+            }
+        } elseif ($selectedBrandInput !== null && $selectedBrandInput !== '' && $selectedBrandInput !== 'other_brand') {
+            $selectedBrandId = (int)$selectedBrandInput;
+            $brand = Brand::find($selectedBrandId);
+            $brandNameForUsageDetails = $brand->brand_name ?? null;
+        }
+
+
+        // **สร้าง usage_details_text ใหม่ทั้งหมด**
+        $usageDetailsText = "";
+        if ($brandNameForUsageDetails) {
+            $usageDetailsText .= "แบรนด์: " . $brandNameForUsageDetails . "\n";
+        } else {
+             $usageDetailsText .= "แบรนด์: -\n";
+        }
+        if (!empty($ingredientNamesForUsageDetails)) {
+            $usageDetailsText .= "สารที่เกี่ยวข้อง: " . implode(', ', $ingredientNamesForUsageDetails) . "\n";
+        }
+        if ($productCategoryNameForUsageDetails) {
+            $usageDetailsText .= "ประเภทสกินแคร์: " . $productCategoryNameForUsageDetails . "\n";
+        } else {
+             $usageDetailsText .= "ประเภทสกินแคร์: -\n";
+        }
+        $usageDetailsText .= "ความเหมาะสมสำหรับผิวหน้า: {$selectedSuitabilityInfo}\n";
+        if ($skinTypeNameForUsageDetails) {
+            $usageDetailsText .= "ประเภทผิว: " . $skinTypeNameForUsageDetails . "\n\n";
+        } else {
+             $usageDetailsText .= "ประเภทผิว: -\n\n";
+        }
+        $usageDetailsText .= "รายละเอียด / วิธีการใช้:\n{$validatedData['description']}";
+
 
         $dataToCreate = [
             'product_name'  => $validatedData['name'],
             'image_path'    => $imagePath,
             'usage_details' => $usageDetailsText,
+            'category_id'   => $selectedProductCategoryId,
+            'suitability_info' => $selectedSuitabilityInfo,
+            'brand_id'      => $selectedBrandId,
+            'added_by_user_id' => Auth::id(), // **เพิ่มบรรทัดนี้: ดึง ID ของผู้ใช้ที่ล็อกอินอยู่**
         ];
 
-        Product::create($dataToCreate);
+        $product = Product::create($dataToCreate);
 
-        return redirect()->route('products.index')->with('success', 'บันทึกข้อมูลสินค้าเรียบร้อย!');
+        // **ผูกสารที่เกี่ยวข้องกับสินค้า (Many-to-Many)**
+        if (!empty($ingredientIdsToAttach)) {
+            $product->ingredients()->attach(array_unique($ingredientIdsToAttach));
+        }
+
+        // **ผูกประเภทผิวกับสินค้า (Many-to-Many แต่เลือกค่าเดียว)**
+        if ($selectedSkinTypeId) {
+            $product->skinTypes()->sync([$selectedSkinTypeId]);
+        } else {
+            $product->skinTypes()->detach();
+        }
+
+        return redirect()->route('product_management_edit.idx')->with('success', 'บันทึกข้อมูลสินค้าเรียบร้อย!');
     }
 
     /**
@@ -119,6 +255,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        // **ปรับปรุง validation ให้ตรงกับ input ที่ส่งมาจาก Modal**
         $request->validate([
             'usage_details'   => 'required|string',
             'suitability_info'=> 'required|string',
@@ -129,10 +266,13 @@ class ProductController extends Controller
             'suitability_info' => $request->suitability_info,
         ]);
 
+        // **ปรับปรุง response เพื่อส่งข้อมูลที่อัปเดตกลับไปให้ Frontend**
         return response()->json([
+            'success' => true, // เพิ่ม success flag
             'product_id'       => $product->product_id,
             'usage_details'    => $product->usage_details,
             'suitability_info' => $product->suitability_info,
+            'message' => 'ข้อมูลสินค้าได้รับการอัปเดตเรียบร้อยแล้ว' // เพิ่มข้อความ
         ]);
     }
 

@@ -12,6 +12,8 @@ class Ingredient extends Model
     protected $table = 'ingredients';
     protected $primaryKey = 'ingredient_id';
     public $timestamps = false;
+    protected $fillable = ['ingredient_name'];
+
 
     /**
      * The products that contain this ingredient.
